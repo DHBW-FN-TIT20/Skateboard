@@ -1,5 +1,7 @@
 The lokal Server runs with VITE.
-How to install VITE: 
+How to install VITE: https://vitejs.dev/guide/
+With npm: npm create vite@latest
+
 
 Run VITE with: npm run dev
 
