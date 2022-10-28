@@ -1,4 +1,4 @@
-The lokal Server rus with VITE.
+The lokal Server runs with VITE.
 How to install VITE: 
 
 Run VITE with: npm run dev
