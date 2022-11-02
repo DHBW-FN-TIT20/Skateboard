@@ -6,6 +6,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { degToRad } from "three/src/math/MathUtils";
 import { GUI } from 'dat.gui';
+import Stats from 'three/examples/jsm/libs/stats.module'
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xa0a0a0 );
@@ -59,13 +60,14 @@ const loadSkateboard = () => {
         skateboard.scale.set(1, 1, 1);
         skateboard.castShadow = true;
         gltf.scene.traverse( function( node ) {
-
+            
             if ( node.isMesh ) { node.castShadow = true; }
-    
+            
         } );
         scene.add(gltf.scene);
     });
 };
+
 
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
 
@@ -102,13 +104,18 @@ scene.add(dlHelper);
 const gui = new GUI();
 makeXYZGUI(gui, directionalLight.position, 'position', updateLight);
 
+var stats = new Stats();
+stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
+
 const animate = () => {
     requestAnimationFrame(animate);
+    stats.begin();
     controls.update();
     dlHelper.update();
     updateLight();
+    stats.end();
     // updateDLPos();
-    console.log()
     renderer.render(scene, camera);
 };
 
