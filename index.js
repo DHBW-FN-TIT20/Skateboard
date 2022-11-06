@@ -7,7 +7,6 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { degToRad } from "three/src/math/MathUtils";
 import { GUI } from 'dat.gui';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import { AnimationClip, VectorKeyframeTrack, AnimationMixer, LoopOnce } from "three";
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xa0a0a0 );
@@ -77,7 +76,7 @@ const loadSkateboard = () => {
     });
 };
 
-const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
+const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.9 );
 
 const setupScene = () => {
     const ambientlight = new THREE.AmbientLight(0xffffff, 0.4);
@@ -125,11 +124,11 @@ document.body.appendChild( stats.dom );
 window.playAnimation = (index) => {
     if(mixer && actions[index]){
         mixer.stopAllAction();
-        actions[index].setEffectiveTimeScale(0.5);
+        actions[index].setEffectiveTimeScale(0.7);
         actions[index].fadeIn(0.5);
         actions[index].play();
     }
-    console.log("click" + index)
+    console.log("click: " + index)
 }
 
 window.stopAnimation = () => {
