@@ -20,7 +20,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(0,0.5,-2);
 
-export function onWindowResize() {
+function onWindowResize() {
         camera.aspect = window. innerWidth / window. innerHeight;
         camera.updateProjectionMatrix();
         renderer. setSize (window. innerWidth, window.innerHeight);
@@ -46,6 +46,8 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 
 let skateboard;
+let mixer;
+let actions = [];
 loadingManager.onLoad = () => {
     camera.updateProjectionMatrix();
     camera.translateZ(-1);
@@ -56,8 +58,6 @@ loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
     console.log("Loaded " + itemsLoaded + " of " + itemsTotal + " files.");
 };
 
-let mixer;
-let action;
 const loadSkateboard = () => {
     gltfLoader.load("skateboard/skateboard.glb", (gltf) => {
         skateboard = gltf.scene.children[0];
@@ -70,16 +70,12 @@ const loadSkateboard = () => {
         } );
         mixer = new THREE.AnimationMixer( gltf.scene );
             gltf.animations.forEach(( clip ) => {
-            action = mixer.clipAction(clip);
-            console.log(clip);
+            actions.push(mixer.clipAction(clip));
         });
-        action.startAt(2);
-        action.setEffectiveTimeScale(0.7);
-        action.play();
+        console.log(actions);
         scene.add(gltf.scene);
     });
 };
-
 
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
 
@@ -101,7 +97,7 @@ const setupScene = () => {
     directionalLight.shadow.camera.far = 40;
      
     //add the floor 
-    const geometry = new THREE.PlaneGeometry( 2, 1 );
+    const geometry = new THREE.PlaneGeometry( 5, 5 );
     const material = new THREE.MeshPhongMaterial( {color: 0xffffff, side: THREE.DoubleSide} );
     const plane = new THREE.Mesh( geometry, material );
     plane.rotateX(degToRad(90));
@@ -126,32 +122,41 @@ var stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild( stats.dom );
 
+window.playAnimation = (index) => {
+    if(mixer && actions[index]){
+        mixer.stopAllAction();
+        actions[index].setEffectiveTimeScale(0.5);
+        actions[index].fadeIn(0.5);
+        actions[index].play();
+    }
+    console.log("click" + index)
+}
+
+window.stopAnimation = () => {
+    mixer.stopAllAction();
+}
+
 let clock = new THREE.Clock();
 const animate = () => {
-    requestAnimationFrame(animate);
     stats.begin();
+    requestAnimationFrame(animate);
     controls.update();
     dlHelper.update();
     updateLight();
 
     const delta = clock.getDelta();
     if(mixer) mixer.update(delta);
-    stats.end();
-    // updateDLPos();
     renderer.render(scene, camera);
+    stats.end();
 };
 
 setupScene();
 
-//updates the directional light vektor with a rotation vektor
-var frame = 0;
-var maxFrame = 600;
-function updateDLPos(){
-    var per = frame /maxFrame,
-    r = Math.PI * 2 * per;
-    directionalLight.position.set(Math.cos(r)*5, 5, Math.sin(r)*5);
-    frame = (frame + 1) % maxFrame;
-}
+let treflip = document.getElementById("treflip");
+let varialHeel = document.getElementById("varialHeel");
+treflip.addEventListener("click", playAnimation);
+varialHeel.addEventListener("click", playAnimation);
+
 
 function makeXYZGUI(gui, vector3, name, onChangeFn) {
     const folder = gui.addFolder(name);
