@@ -7,9 +7,12 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { degToRad } from "three/src/math/MathUtils";
 import { GUI } from 'dat.gui';
 import Stats from 'three/examples/jsm/libs/stats.module';
+import { Body, Box, Material, Plane, RaycastVehicle, Sphere, Vec3, World } from "cannon-es";
+import CannonDebugger from "cannon-es-debugger";
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0xa0a0a0 );
+scene.background = new THREE.Color(0xa0a0a0);
+
 
 const camera = new THREE.PerspectiveCamera(
     75,
@@ -17,14 +20,16 @@ const camera = new THREE.PerspectiveCamera(
     0.01,
     1000
 );
-camera.position.set(0,0.5,-2);
+camera.position.set(0, 0.5, -2);
+let sphereBody;
+
 
 function onWindowResize() {
-        camera.aspect = window. innerWidth / window. innerHeight;
-        camera.updateProjectionMatrix();
-        renderer. setSize (window. innerWidth, window.innerHeight);
-    }
-    window.addEventListener ('resize', onWindowResize);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+window.addEventListener('resize', onWindowResize);
 
 const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector(".canv"),
@@ -43,7 +48,8 @@ const gltfLoader = new GLTFLoader(loadingManager);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-
+let world;
+let groundMaterial;
 let skateboard;
 let mixer;
 let actions = [];
@@ -53,22 +59,23 @@ loadingManager.onLoad = () => {
     animate();
 };
 
+
 loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
     console.log("Loaded " + itemsLoaded + " of " + itemsTotal + " files.");
 };
 
 const loadSkateboard = () => {
-    gltfLoader.load("skateboard/skateboard.glb", (gltf) => {
+    gltfLoader.load("assets/models/skateboard.glb", (gltf) => {
         skateboard = gltf.scene.children[0];
         skateboard.scale.set(1, 1, 1);
         skateboard.castShadow = true;
-        gltf.scene.traverse( function( node ) {
+        gltf.scene.traverse(function (node) {
             
-            if ( node.isMesh ) { node.castShadow = true; }
+            if (node.isMesh) { node.castShadow = true; }
             
-        } );
-        mixer = new THREE.AnimationMixer( gltf.scene );
-            gltf.animations.forEach(( clip ) => {
+        });
+        mixer = new THREE.AnimationMixer(gltf.scene);
+        gltf.animations.forEach((clip) => {
             actions.push(mixer.clipAction(clip));
         });
         console.log(actions);
@@ -76,40 +83,40 @@ const loadSkateboard = () => {
     });
 };
 
-const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.9 );
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9);
 
 const setupScene = () => {
     const ambientlight = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambientlight);
     
     //set up for the directional light
-    directionalLight.position.set( 0, 1, 0 );
-    directionalLight.castShadow = true; 
+    directionalLight.position.set(0, 1, 0);
+    directionalLight.castShadow = true;
     directionalLight.target.position.set(0, 0, 0);
-    scene.add( directionalLight );
+    scene.add(directionalLight);
     scene.add(directionalLight.target);
-
+    
     //Set up shadow properties for the light
-    directionalLight.shadow.mapSize.width = 10000; 
-    directionalLight.shadow.mapSize.height = 10000; 
+    directionalLight.shadow.mapSize.width = 10000;
+    directionalLight.shadow.mapSize.height = 10000;
     directionalLight.shadow.camera.near = 0.5;
     directionalLight.shadow.camera.far = 40;
-     
-    //add the floor 
-    const geometry = new THREE.PlaneGeometry( 5, 5 );
-    const material = new THREE.MeshPhongMaterial( {color: 0xffffff, side: THREE.DoubleSide} );
-    const plane = new THREE.Mesh( geometry, material );
+    
+    
+    const geometry = new THREE.PlaneGeometry(5, 5);
+    const material = new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+    const plane = new THREE.Mesh(geometry, material);
     plane.rotateX(degToRad(90));
-    plane.position.set(0,-0.03,0);
+    plane.position.set(0, 0, 0);
     plane.receiveShadow = true;
-    scene.add( plane );
-
+    scene.add(plane);
+    
     loadSkateboard();
 };
 
 const dlHelper = new THREE.DirectionalLightHelper(directionalLight);
 const axisHelper = new THREE.AxesHelper(10);
-const gridHelper = new THREE.GridHelper(10, 20,0x2c2c2c, 0x888888);
+const gridHelper = new THREE.GridHelper(10, 20, 0x2c2c2c, 0x888888);
 scene.add(axisHelper);
 scene.add(gridHelper);
 scene.add(dlHelper);
@@ -118,11 +125,11 @@ const gui = new GUI();
 makeXYZGUI(gui, directionalLight.position, 'position', updateLight);
 
 var stats = new Stats();
-stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
 
 window.playAnimation = (index) => {
-    if(mixer && actions[index]){
+    if (mixer && actions[index]) {
         mixer.stopAllAction();
         actions[index].setEffectiveTimeScale(0.7);
         actions[index].fadeIn(0.5);
@@ -136,20 +143,31 @@ window.stopAnimation = () => {
 }
 
 let clock = new THREE.Clock();
+const skateboardDiff = new Vec3(0,-1,0);
 const animate = () => {
     stats.begin();
     requestAnimationFrame(animate);
     controls.update();
     dlHelper.update();
     updateLight();
-
+    
     const delta = clock.getDelta();
-    if(mixer) mixer.update(delta);
+    world.fixedStep();
+    cannonDebugger.update();
+    let { x, y, z } = sphereBody.position;
+    y = y-0.066;
+    skateboard.position.copy({x, y, z});
+    // skateboard.quaternion.copy(sphereBody.quaternion);
+
+    if (mixer) mixer.update(delta);
     renderer.render(scene, camera);
     stats.end();
 };
 
 setupScene();
+initWorld();
+const cannonDebugger = new CannonDebugger(scene, world, {});
+createGround();
 
 let treflip = document.getElementById("treflip");
 let varialHeel = document.getElementById("varialHeel");
@@ -163,10 +181,32 @@ function makeXYZGUI(gui, vector3, name, onChangeFn) {
     folder.add(vector3, 'y', 0, 10).onChange(onChangeFn);
     folder.add(vector3, 'z', -10, 10).onChange(onChangeFn);
     folder.open();
-  }
+}
 
-  function updateLight() {
+function updateLight() {
     directionalLight.updateMatrixWorld();
     dlHelper.update();
-  }
-  
+}
+
+
+function initWorld() {
+    world = new World();
+    world.gravity.set(0, -10, 0);
+}
+function createGround() {
+    //add the floor 
+    groundMaterial = new Material("groundMaterial");
+    const groundShape = new Plane();
+    const groundBody = new Body( { type: Body.STATIC, shape: groundShape, material: groundMaterial });
+    groundBody.quaternion.setFromAxisAngle(new Vec3(1,0,0), -Math.PI/2);
+
+    sphereBody = new Body({
+        mass: 1,
+        shape: new Box(new Vec3(.23, .05, .1)),
+    });
+
+    sphereBody.position.set(0, 7, 0);
+
+    world.addBody(groundBody);
+    world.addBody(sphereBody);
+}
