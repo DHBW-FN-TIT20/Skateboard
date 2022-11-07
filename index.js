@@ -100,7 +100,7 @@ const setupScene = () => {
     const material = new THREE.MeshPhongMaterial( {color: 0xffffff, side: THREE.DoubleSide} );
     const plane = new THREE.Mesh( geometry, material );
     plane.rotateX(degToRad(90));
-    plane.position.set(0,-0.03,0);
+    plane.position.set(0,0,0);
     plane.receiveShadow = true;
     scene.add( plane );
 
