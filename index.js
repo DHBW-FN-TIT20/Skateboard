@@ -90,8 +90,8 @@ const setupScene = () => {
     scene.add(directionalLight.target);
 
     //Set up shadow properties for the light
-    directionalLight.shadow.mapSize.width = 10000; 
-    directionalLight.shadow.mapSize.height = 10000; 
+    directionalLight.shadow.mapSize.width = 5000; 
+    directionalLight.shadow.mapSize.height = 5000; 
     directionalLight.shadow.camera.near = 0.5;
     directionalLight.shadow.camera.far = 40;
      
@@ -126,6 +126,7 @@ window.playAnimation = (index) => {
         mixer.stopAllAction();
         actions[index].setEffectiveTimeScale(0.7);
         actions[index].fadeIn(0.5);
+        actions[index].setLoop( THREE.LoopOnce );
         actions[index].play();
     }
     console.log("click: " + index)
