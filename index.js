@@ -7,7 +7,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { degToRad } from "three/src/math/MathUtils";
 import { GUI } from 'dat.gui';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import { Body, Box, Material, Plane, RaycastVehicle, Sphere, Vec3, World } from "cannon-es";
+import { Body, Box, Material, Plane, Quaternion, RaycastVehicle, RigidVehicle, Sphere, Vec3, World } from "cannon-es";
 import CannonDebugger from "cannon-es-debugger";
 
 const scene = new THREE.Scene();
@@ -143,7 +143,6 @@ window.stopAnimation = () => {
 }
 
 let clock = new THREE.Clock();
-const skateboardDiff = new Vec3(0,-1,0);
 const animate = () => {
     stats.begin();
     requestAnimationFrame(animate);
@@ -157,7 +156,7 @@ const animate = () => {
     let { x, y, z } = sphereBody.position;
     y = y-0.066;
     skateboard.position.copy({x, y, z});
-    // skateboard.quaternion.copy(sphereBody.quaternion);
+    skateboard.quaternion.copy(sphereBody.quaternion);
 
     if (mixer) mixer.update(delta);
     renderer.render(scene, camera);
@@ -167,6 +166,8 @@ const animate = () => {
 setupScene();
 initWorld();
 const cannonDebugger = new CannonDebugger(scene, world, {});
+let vehicle;
+
 createGround();
 
 let treflip = document.getElementById("treflip");
@@ -201,12 +202,130 @@ function createGround() {
     groundBody.quaternion.setFromAxisAngle(new Vec3(1,0,0), -Math.PI/2);
 
     sphereBody = new Body({
-        mass: 1,
+        mass: 20,
         shape: new Box(new Vec3(.23, .05, .1)),
+        position: new Vec3(0, 7, 0)
     });
 
-    sphereBody.position.set(0, 7, 0);
+    // sphereBody.position.set(0, 7, 0);
+    vehicle = new RigidVehicle({
+        chassisBody: sphereBody
+    });
 
     world.addBody(groundBody);
-    world.addBody(sphereBody);
+
+
+    // ramp
+    let ramp = new Material("ramp");
+    let rampeShape = new Box(new Vec3(1, 1, .3));
+    const rampBody = new Body({type: Body.STATIC, shape: rampeShape, material: ramp});
+    rampBody.quaternion.setFromAxisAngle(new Vec3(1,.3,0), -Math.PI/2);
+    rampBody.position.set(1, -.2, 1);
+    world.addBody(rampBody);
+
+
+    const wheelMaterial = new Material("wheel");
+    const wheelShape = new Sphere(.1);
+    const down = new Vec3(0, -1, 0);
+
+    const wheelBody3 = new Body({mass: 1, material: wheelMaterial});
+    wheelBody3.addShape(wheelShape);
+    wheelBody3.angularDamping = .4;
+    vehicle.addWheel({
+        body: wheelBody3,
+        position: new Vec3(-.2, 0, .15),
+        axis: new Vec3(0,0,1),
+        direction: down
+    });
+
+    const wheelBody4 = new Body({mass: 1, material: wheelMaterial});
+    wheelBody4.addShape(wheelShape);
+    wheelBody4.angularDamping = .4;
+    vehicle.addWheel({
+        body: wheelBody4,
+        position: new Vec3(-.2, 0, -.15),
+        axis: new Vec3(0,0,1),
+        direction: down
+    });
+    const wheelBody1 = new Body({mass: 1, material: wheelMaterial});
+    wheelBody1.addShape(wheelShape);
+    wheelBody1.angularDamping = .4;
+    vehicle.addWheel({
+        body: wheelBody1,
+        position: new Vec3(.2, 0, .15),
+        axis: new Vec3(0,0,1),
+        direction: down
+    });
+
+    const wheelBody2 = new Body({mass: 1, material: wheelMaterial});
+    wheelBody2.addShape(wheelShape);
+    wheelBody2.angularDamping = .4;
+    vehicle.addWheel({
+        body: wheelBody2,
+        position: new Vec3(.2, 0, -0.15),
+        axis: new Vec3(0,0,1),
+        direction: down
+    });
+
+    vehicle.addToWorld(world);
+
+    // world.addBody(sphereBody);
 }
+
+const strength = 500
+const dt = 1 / 60
+
+document.addEventListener("keydown", (event) => {
+    const maxSteering = Math.PI/15;
+    switch (event.key) {
+        case "w":
+        case "ArrowUp":
+            vehicle.setWheelForce(3, 0);
+            vehicle.setWheelForce(3, 1);
+            break;
+        case "s":
+        case "ArrowDown":
+            vehicle.setWheelForce(-2, 0);
+            vehicle.setWheelForce(-2, 1);
+            break;
+        case "a":
+            vehicle.setSteeringValue(maxSteering, 0);
+            vehicle.setSteeringValue(maxSteering, 1);
+            break;
+        case "d":
+            vehicle.setSteeringValue(-maxSteering, 0);
+            vehicle.setSteeringValue(-maxSteering, 1);
+            break;
+        default:
+            break;
+    }
+});
+
+document.addEventListener("keyup", (event) => {
+    switch (event.key) {
+        case "w":
+        case "ArrowUp":
+            vehicle.setWheelForce(0, 0);
+            vehicle.setWheelForce(0, 1);
+            break;
+        case "s":
+        case "ArrowDown":
+            vehicle.setWheelForce(0, 0);
+            vehicle.setWheelForce(0, 1);
+            break;
+        case "a":
+            vehicle.setSteeringValue(0, 0);
+            vehicle.setSteeringValue(0, 1);
+            break;
+        case "d":
+            vehicle.setSteeringValue(0, 0);
+            vehicle.setSteeringValue(0, 1);
+            break;
+        case " ":
+            if(event.code == "Space")
+            vehicle.chassisBody.position.set(0,2,0);
+            break;
+        default:
+            break;
+    }
+})
