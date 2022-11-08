@@ -11,35 +11,28 @@ import Stats from 'three/examples/jsm/libs/stats.module';
 import { createCamera } from "./components/camera";
 import { createLights } from "./components/light";
 import { createScene } from "./components/scene";
+import { createRenderer } from "./systems/renderer";
+import { Resizer } from "./systems/resizer";
+import { createControls } from "./systems/controls";
 
+//create the scene
 const scene = createScene();
 
+//create the camera
 const camera = createCamera();
 
-function onWindowResize() {
-        camera.aspect = window. innerWidth / window. innerHeight;
-        camera.updateProjectionMatrix();
-        renderer. setSize (window. innerWidth, window.innerHeight);
-    }
-    window.addEventListener ('resize', onWindowResize);
-
-const renderer = new THREE.WebGLRenderer({
-    canvas: document.querySelector(".canv"),
-    antialias: true,
-});
-
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
+//create the renderer
+const renderer = createRenderer();
 renderer.render(scene, camera);
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
+//the resizer lets the position (0,0,0) stays in the middle of the screen
+const resizer = new Resizer(window, camera, renderer);
+
+//create orbit controls to change the camera with the mouse
+const controls = createControls(camera, renderer.domElement);
 
 const loadingManager = new THREE.LoadingManager();
 const gltfLoader = new GLTFLoader(loadingManager);
-
-const controls = new OrbitControls(camera, renderer.domElement);
-
 
 let skateboard;
 let mixer;
