@@ -14,6 +14,7 @@ import { createScene } from "./components/scene";
 import { createRenderer } from "./systems/renderer";
 import { Resizer } from "./systems/resizer";
 import { createControls } from "./systems/controls";
+import { createHelpers } from "./systems/helper";
 
 //create the scene
 const scene = createScene();
@@ -34,6 +35,7 @@ const controls = createControls(camera, renderer.domElement);
 const loadingManager = new THREE.LoadingManager();
 const gltfLoader = new GLTFLoader(loadingManager);
 
+//outcource the whole loading process ? 
 let skateboard;
 let mixer;
 let actions = [];
@@ -85,9 +87,7 @@ const setupScene = () => {
     loadSkateboard();
 };
 
-const dlHelper = new THREE.DirectionalLightHelper(directionalLight);
-const axisHelper = new THREE.AxesHelper(10);
-const gridHelper = new THREE.GridHelper(10, 20,0x2c2c2c, 0x888888);
+const {dlHelper, axisHelper, gridHelper} = createHelpers(directionalLight);
 scene.add(axisHelper);
 scene.add(gridHelper);
 scene.add(dlHelper);
