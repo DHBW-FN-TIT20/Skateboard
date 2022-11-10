@@ -77,7 +77,7 @@ const setupScene = () => {
 
     //add the floor 
     const geometry = new THREE.PlaneGeometry( 5, 5 );
-    const material = new THREE.MeshPhongMaterial( {color: 0xffffff, side: THREE.DoubleSide} );
+    const material = new THREE.MeshPhongMaterial( {color: 0x888888, side: THREE.DoubleSide} );
     const plane = new THREE.Mesh( geometry, material );
     plane.rotateX(degToRad(90));
     plane.position.set(0,0,0);
@@ -100,9 +100,13 @@ stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild( stats.dom );
 
 window.playAnimation = (index) => {
+
     if(mixer && actions[index]){
         mixer.stopAllAction();
-        actions[index].setEffectiveTimeScale(0.7);
+
+        if (index == 1 || index == 0) {
+            actions[index].setEffectiveTimeScale(1.5);
+        }
         actions[index].fadeIn(0.5);
         actions[index].setLoop( THREE.LoopOnce );
         actions[index].play();
