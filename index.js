@@ -103,7 +103,7 @@ const setupScene = () => {
     directionalLight.shadow.camera.far = 40;
     
     
-    const geometry = new THREE.PlaneGeometry(5, 5);
+    const geometry = new THREE.PlaneGeometry(10, 10);
     const material = new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide });
     const plane = new THREE.Mesh(geometry, material);
     plane.rotateX(degToRad(90));
@@ -152,12 +152,13 @@ const animate = () => {
     
     const delta = clock.getDelta();
     world.fixedStep();
-    cannonDebugger.update();
+    // cannonDebugger.update();
     let { x, y, z } = sphereBody.position;
-    y = y-0.066;
+    y = y-0.104;
     skateboard.position.copy({x, y, z});
     skateboard.quaternion.copy(sphereBody.quaternion);
-
+    skateboard.rotateX( degToRad(-90) );
+    
     if (mixer) mixer.update(delta);
     renderer.render(scene, camera);
     stats.end();
@@ -165,7 +166,7 @@ const animate = () => {
 
 setupScene();
 initWorld();
-const cannonDebugger = new CannonDebugger(scene, world, {});
+// const cannonDebugger = new CannonDebugger(scene, world, {});
 let vehicle;
 
 createGround();
@@ -203,8 +204,8 @@ function createGround() {
 
     sphereBody = new Body({
         mass: 20,
-        shape: new Box(new Vec3(.23, .05, .1)),
-        position: new Vec3(0, 7, 0)
+        shape: new Box(new Vec3(.36, .02, .1)),
+        position: new Vec3(0, .2, 0)
     });
 
     // sphereBody.position.set(0, 7, 0);
@@ -225,7 +226,7 @@ function createGround() {
 
 
     const wheelMaterial = new Material("wheel");
-    const wheelShape = new Sphere(.1);
+    const wheelShape = new Sphere(.07);
     const down = new Vec3(0, -1, 0);
 
     const wheelBody3 = new Body({mass: 1, material: wheelMaterial});
@@ -233,7 +234,7 @@ function createGround() {
     wheelBody3.angularDamping = .4;
     vehicle.addWheel({
         body: wheelBody3,
-        position: new Vec3(-.2, 0, .15),
+        position: new Vec3(-.2, -.02, .1),
         axis: new Vec3(0,0,1),
         direction: down
     });
@@ -243,7 +244,7 @@ function createGround() {
     wheelBody4.angularDamping = .4;
     vehicle.addWheel({
         body: wheelBody4,
-        position: new Vec3(-.2, 0, -.15),
+        position: new Vec3(-.2, -.02, -.1),
         axis: new Vec3(0,0,1),
         direction: down
     });
@@ -252,7 +253,7 @@ function createGround() {
     wheelBody1.angularDamping = .4;
     vehicle.addWheel({
         body: wheelBody1,
-        position: new Vec3(.2, 0, .15),
+        position: new Vec3(.2, -.02, .1),
         axis: new Vec3(0,0,1),
         direction: down
     });
@@ -262,7 +263,7 @@ function createGround() {
     wheelBody2.angularDamping = .4;
     vehicle.addWheel({
         body: wheelBody2,
-        position: new Vec3(.2, 0, -0.15),
+        position: new Vec3(.2, -.02, -.1),
         axis: new Vec3(0,0,1),
         direction: down
     });
@@ -323,7 +324,7 @@ document.addEventListener("keyup", (event) => {
             break;
         case " ":
             if(event.code == "Space")
-            vehicle.chassisBody.position.set(0,2,0);
+            vehicle.chassisBody.position.set(0,.5,0);
             break;
         default:
             break;
