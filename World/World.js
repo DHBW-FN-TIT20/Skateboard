@@ -2,6 +2,8 @@ import "../style.css";
 
 import { GUI } from 'dat.gui';
 
+import * as CANNON from "cannon-es";
+
 import { createCamera } from "./components/camera";
 import { createLights } from "./components/light";
 import { createScene } from "./components/scene";
@@ -13,8 +15,11 @@ import { createHelpers } from "../systems/helper";
 import { loadSkateboard } from "./components/skateboard/skateboard";
 import { loadEnvironment } from "./components/environment/environment";
 import { Loop } from "./systems/Loop";
+import CannonDebugger from "cannon-es-debugger";
 
 let scene;
+let physics;
+
 let camera;
 let renderer;
 let controls;
@@ -59,15 +64,29 @@ class World {
             folder.add(vector3, 'z', -10, 10).onChange(onChangeFn);
             folder.open();
         }
+
+        // physiks world
+        physics = new CANNON.World({
+            gravity: new CANNON.Vec3(0, -10, 0)
+        });
+        physics.tick = () => physics.fixedStep();
+        loop.updatables.push(physics);
+
+        const cannonDebugger = new CannonDebugger(scene, physics, {});
+        cannonDebugger.tick = () => cannonDebugger.update();
+        loop.updatables.push(cannonDebugger);
     }
     
 
     async init() {
         const environment = await loadEnvironment();
         const skateboard = await loadSkateboard();
-
+        skateboard.physics.addToWorld(physics);
+        directionalHelpLight.target = skateboard.model;
+        
         loop.updatables.push(skateboard.model);
-        scene.add(skateboard.model, environment);
+        scene.add(skateboard.model, environment.model);
+        [environment.physics].forEach((p) => physics.addBody(p));
     }
 
     render() {
