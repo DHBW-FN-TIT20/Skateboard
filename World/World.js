@@ -2,9 +2,9 @@ import "../style.css";
 
 import { GUI } from 'dat.gui';
 
-import { createCamera } from "../components/camera";
-import { createLights } from "../components/light";
-import { createScene } from "../components/scene";
+import { createCamera } from "./components/camera";
+import { createLights } from "./components/light";
+import { createScene } from "./components/scene";
 import { createRenderer } from "../systems/renderer";
 import { Resizer } from "../systems/resizer";
 import { createControls } from "../systems/controls";
