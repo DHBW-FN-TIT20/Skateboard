@@ -16,7 +16,7 @@ import { loadSkateboard } from "./components/skateboard/skateboard";
 import { loadEnvironment } from "./components/environment/environment";
 import { Loop } from "./systems/Loop";
 import CannonDebugger from "cannon-es-debugger";
-import { loadCityElements } from "./components/environment/city_elements";
+import { loadHydrant } from "./components/environment/hydrant";
 
 let scene;
 let physics;
@@ -43,20 +43,20 @@ class World {
         controls = createControls(camera, renderer.domElement);
         loop.updatables.push(controls);
 
-        const { directionalLight, ambientLight } = createLights();
+        const { directionalLight, ambientLight, hemisphereLight } = createLights();
 
         directionalHelpLight = directionalLight;
 
-        const { dlHelper, axisHelper, gridHelper } = createHelpers(directionalLight);
+        const { dlHelper, axisHelper, gridHelper, cameraHelper } = createHelpers(directionalLight);
         dlGlobalHelper = dlHelper;
         dlGlobalHelper.tick = () => dlGlobalHelper.update();
         loop.updatables.push(dlGlobalHelper);
 
-        scene.add(axisHelper, gridHelper, dlGlobalHelper);
+        scene.add(axisHelper, gridHelper, dlGlobalHelper, cameraHelper);
         const gui = new GUI();
         makeXYZGUI(gui, directionalLight.position, 'position', updateLight);
 
-        scene.add(ambientLight, directionalLight);
+        scene.add(ambientLight, directionalLight, hemisphereLight);
 
         function makeXYZGUI(gui, vector3, name, onChangeFn) {
             const folder = gui.addFolder(name);
@@ -82,10 +82,10 @@ class World {
     async init() {
         const environment = await loadEnvironment();
         const skateboard = await loadSkateboard();
-        const hydrant = await loadCityElements("/models/environment/hydrant.glb");
-        hydrant.position.set(2,0,1);
+        const hydrant = await loadHydrant();
+    
         skateboard.physics.addToWorld(physics);
-        directionalHelpLight.target = skateboard.model;
+        // directionalHelpLight.target = skateboard.model;
         
         loop.updatables.push(skateboard.model);
         scene.add(skateboard.model, environment.model, hydrant);
