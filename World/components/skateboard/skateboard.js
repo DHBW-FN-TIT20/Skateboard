@@ -13,16 +13,22 @@ async function loadSkateboard() {
     const model = data.scene.children[0];
 
     model.scale.set(2, 2, 2);
+
+    //allow the skateboard to cast schadow
     model.castShadow = true;
+
+    //set castShadow to true for each node
     data.scene.traverse((node) => {
         if (node.isMesh) node.castShadow = true;
     });
 
+    //load every animation clip in the actions array
     mixer = new THREE.AnimationMixer(data.scene);
     data.animations.forEach((clip) => {
         actions.push(mixer.clipAction(clip));
     });
 
+    //start the specific animation 
     window.playAnimation = (index) => {
         if (mixer && actions[index]) {
             mixer.stopAllAction();
@@ -36,6 +42,7 @@ async function loadSkateboard() {
         }
     }
 
+    //stop the animation
     window.stopAnimation = () => {
         mixer.stopAllAction();
     }
