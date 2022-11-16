@@ -38,8 +38,6 @@ function createLights(){
   directionalLight.shadow.camera.right = -area;
   directionalLight.shadow.camera.bottom = -area;
 
-
-
   return {directionalLight, ambientLight, hemisphereLight};
 }
 

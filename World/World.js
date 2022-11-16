@@ -27,7 +27,6 @@ let controls;
 let loop;
 
 let dlGlobalHelper;
-let directionalHelpLight;
 
 class World {
     constructor() {
@@ -44,8 +43,6 @@ class World {
         loop.updatables.push(controls);
 
         const { directionalLight, ambientLight, hemisphereLight } = createLights();
-
-        directionalHelpLight = directionalLight;
 
         const { dlHelper, axisHelper, gridHelper, cameraHelper } = createHelpers(directionalLight);
         dlGlobalHelper = dlHelper;
@@ -85,7 +82,6 @@ class World {
         const hydrant = await loadHydrant();
     
         skateboard.physics.addToWorld(physics);
-        // directionalHelpLight.target = skateboard.model;
         
         loop.updatables.push(skateboard.model);
         scene.add(skateboard.model, environment.model, hydrant);
