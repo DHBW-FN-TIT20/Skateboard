@@ -16,6 +16,7 @@ import { loadSkateboard } from "./components/skateboard/skateboard";
 import { loadEnvironment } from "./components/environment/environment";
 import { Loop } from "./systems/Loop";
 import CannonDebugger from "cannon-es-debugger";
+import { loadCityElements } from "./components/environment/city_elements";
 
 let scene;
 let physics;
@@ -81,11 +82,12 @@ class World {
     async init() {
         const environment = await loadEnvironment();
         const skateboard = await loadSkateboard();
+        const cityElements = await loadCityElements();
         skateboard.physics.addToWorld(physics);
         directionalHelpLight.target = skateboard.model;
         
         loop.updatables.push(skateboard.model);
-        scene.add(skateboard.model, environment.model);
+        scene.add(skateboard.model, environment.model, cityElements.model);
         [environment.physics].forEach((p) => physics.addBody(p));
     }
 

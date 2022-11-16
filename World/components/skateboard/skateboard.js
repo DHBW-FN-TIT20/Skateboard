@@ -9,7 +9,7 @@ async function loadSkateboard() {
     let mixer;
     let actions = [];
 
-    const data = await gltfLoader.loadAsync('/skateboard/skateboard.glb');
+    const data = await gltfLoader.loadAsync('/models/skateboard/skateboard.glb');
     const model = data.scene.children[0];
 
     model.scale.set(2, 2, 2);
