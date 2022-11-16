@@ -1,4 +1,3 @@
-
 button{
     font-size: 1rem;    /* Schriftgröße der Buttons = Standardschriftgröße im Browser*/
     font-weight: bold;  /* Schriftart der Buttons = Standardschriftgröße fett*/
@@ -21,9 +20,4 @@ Button:hover {                          /* Hover-Effekt ==> Button ändert Desig
     padding: 0.3em 0.8em;               /*Vertikale Horizontale ==> Größe und Abstand des Rahmens (jedes Buttens) richtet sich nach der Schriftgröße*/
     border: 0.2em solid rgb(0, 0, 0); /* Rand: 2Pixel, eine Linie, Schwarz*/
     border-radius: 0.5em;               /* Radius Buttonrand/Grenze */
-} 
-
-.animationButtons {
-    
-} 
-
+}
