@@ -1,10 +1,29 @@
 
 button{
-    margin:0 auto;
-    padding: 0.4rem 1rem;
-    display: block;
+    font-size: 1rem;    /* Schriftgröße der Buttons = Standardschriftgröße im Browser*/
+    font-weight: bold;  /* Schriftart der Buttons = Standardschriftgröße fett*/
+    cursor:pointer;     /* Mauszeiger ändert sich wenn dieser über den Buttons steht */
+    padding: 0.5em 1em; /* Vertikale Horizontale ==> Größe und Abstand des Rahmens (jedes Buttens) richtet sich nach der Schriftgröße*/
 
+    display: block;     /* Anordnung der Buttons*/
+    margin:0.5em auto;  /* Zentrierung der Buttons (auto), Horizontal-Abstand 0,5em*/
+    
+
+    background-color:rgb(0, 0, 0);   /* Hintergrundfarbe der Buttons*/
+    color:white;                     /* Schriftfarbe der Buttons*/
+    border:none;                       /* keinen Rahmen*/
+    border-radius: 0.5em;              /* Radius Buttonrand/Grenze */
 }
 
-.animationButtons{
-}
+Button:hover {                          /* Hover-Effekt ==> Button ändert Design wenn der Cursor drüber steht*/
+    color:rgb(0, 0, 0);               /* Schriftfarbe der Buttons*/
+    background-color:white;           /* Hintergrundfarbe der Buttons*/
+    padding: 0.3em 0.8em;               /*Vertikale Horizontale ==> Größe und Abstand des Rahmens (jedes Buttens) richtet sich nach der Schriftgröße*/
+    border: 0.2em solid rgb(0, 0, 0); /* Rand: 2Pixel, eine Linie, Schwarz*/
+    border-radius: 0.5em;               /* Radius Buttonrand/Grenze */
+} 
+
+.animationButtons {
+    
+} 
+
