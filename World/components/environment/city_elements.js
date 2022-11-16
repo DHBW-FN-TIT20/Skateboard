@@ -1,12 +1,11 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-async function loadCityElements(){
+async function loadCityElements(url){
   const gltfLoader = new GLTFLoader();
-  const data = await gltfLoader.loadAsync('/models/environment/hydrant.glb');
+  const data = await gltfLoader.loadAsync(url);
   const model = data.scene.children[0];
 
-  // model.scale.set(2,2,2);
-  // model.position.set(2,0,0);
+  model.scale.set(.1,.1,.1);
 
   model.castShadow = true;
 

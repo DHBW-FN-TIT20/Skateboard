@@ -82,12 +82,13 @@ class World {
     async init() {
         const environment = await loadEnvironment();
         const skateboard = await loadSkateboard();
-        const cityElements = await loadCityElements();
+        const hydrant = await loadCityElements("/models/environment/hydrant.glb");
+        hydrant.position.set(2,0,1);
         skateboard.physics.addToWorld(physics);
         directionalHelpLight.target = skateboard.model;
         
         loop.updatables.push(skateboard.model);
-        scene.add(skateboard.model, environment.model, cityElements.model);
+        scene.add(skateboard.model, environment.model, hydrant);
         [environment.physics].forEach((p) => physics.addBody(p));
     }
 
