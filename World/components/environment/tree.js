@@ -1,19 +1,19 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-async function loadStreet(){
+async function loadTree(){
   const gltfLoader = new GLTFLoader();
-  const data = await gltfLoader.loadAsync("/models/environment/street.glb");
+  const data = await gltfLoader.loadAsync("/models/environment/giant_low_poly_tree.glb");
   const model = data.scene.children[0];
 
-  model.scale.set(20,1,7.5);
-  model.position.set(-15,.1,0);
+  model.scale.set(.25,.25,.25);
+  model.position.set(10,.1,0);
   
   model.castShadow = true;
   data.scene.traverse((node) => {
-    if (node.isMesh) node.receiveShadow = true;
+    if (node.isMesh) node.castShadow = true;
   });
 
   return model;
 }
 
-export {loadStreet}
+export {loadTree}
