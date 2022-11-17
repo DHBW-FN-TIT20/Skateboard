@@ -16,13 +16,13 @@ async function loadHydrant(){
 
   //add a hitbox
   const hydrantCylinder = new CANNON.Cylinder(.18, .18, 1, 12);
-  const physicsChasis = new CANNON.Body({
+  const physics = new CANNON.Body({
     type: CANNON.Body.STATIC,
     shape: hydrantCylinder,
     position: new CANNON.Vec3(2, .6, 1)
   });
 
-  return {model, physicsChasis};
+  return {model, physics};
 }
 
 export {loadHydrant}

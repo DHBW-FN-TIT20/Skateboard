@@ -18,6 +18,7 @@ import { Loop } from "./systems/Loop";
 import CannonDebugger from "cannon-es-debugger";
 import { loadHydrant } from "./components/environment/hydrant";
 import { loadStreetLamp } from "./components/environment/streetLamp";
+import { loadStreet } from "./components/environment/street";
 
 let scene;
 let physics;
@@ -81,13 +82,16 @@ class World {
         const environment = await loadEnvironment();
         const skateboard = await loadSkateboard();
         const hydrant = await loadHydrant();
-        const streetLamp = await loadStreetLamp();
+        const streetLamp1 = await loadStreetLamp(-19, .1, 0);
+        const streetLamp2 = await loadStreetLamp(-19, .1, 15);
+        const streetLamp3 = await loadStreetLamp(-19, .1, -15);
+        const street = await loadStreet();
     
         skateboard.physics.addToWorld(physics);
         
         loop.updatables.push(skateboard.model);
-        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp);
-        [environment.physics, hydrant.physicsChasis].forEach((p) => physics.addBody(p));
+        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street);
+        [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics].forEach((p) => physics.addBody(p));
     }
 
     render() {

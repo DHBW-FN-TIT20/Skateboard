@@ -4,11 +4,11 @@ import { degToRad } from "three/src/math/MathUtils";
 
 async function loadEnvironment() {
     //add the floor 
-    const geometry = new THREE.BoxGeometry(40, 40, .2);
+    const geometry = new THREE.BoxGeometry(30, 40, .2);
     const material = new THREE.MeshStandardMaterial({ color: 0x888888, side: THREE.DoubleSide });
     const model = new THREE.Mesh(geometry, material);
     model.rotateX(degToRad(90));
-    model.position.set(0, 0, 0);
+    model.position.set(5, 0, 0);
     model.receiveShadow = true;
 
     const groundMaterial = new CANNON.Material("groundMaterial");
