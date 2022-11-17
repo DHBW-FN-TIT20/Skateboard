@@ -1,7 +1,7 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { degToRad } from "three/src/math/MathUtils";
 
-async function loadStreetLamp(url){
+async function loadStreetLamp(){
   const gltfLoader = new GLTFLoader();
   const data = await gltfLoader.loadAsync("/models/environment/streetLamp.glb");
   const model = data.scene.children[0];

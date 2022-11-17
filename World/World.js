@@ -86,8 +86,8 @@ class World {
         skateboard.physics.addToWorld(physics);
         
         loop.updatables.push(skateboard.model);
-        scene.add(skateboard.model, environment.model, hydrant, streetLamp);
-        [environment.physics].forEach((p) => physics.addBody(p));
+        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp);
+        [environment.physics, hydrant.physicsChasis].forEach((p) => physics.addBody(p));
     }
 
     render() {

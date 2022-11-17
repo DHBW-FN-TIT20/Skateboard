@@ -1,7 +1,7 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as CANNON from "cannon-es";
 
-async function loadHydrant(url){
+async function loadHydrant(){
   const gltfLoader = new GLTFLoader();
   const data = await gltfLoader.loadAsync("/models/environment/hydrant.glb");
   const model = data.scene.children[0];
@@ -15,16 +15,14 @@ async function loadHydrant(url){
   });
 
   //add a hitbox
-  const hydrantBox = new CANNON.Box(new CANNON.Vec3(.6, .01, .19));
+  const hydrantCylinder = new CANNON.Cylinder(.18, .18, 1, 12);
   const physicsChasis = new CANNON.Body({
-    mass: 100,
-    position: new CANNON.Vec3(2, .1, 1)
+    type: CANNON.Body.STATIC,
+    shape: hydrantCylinder,
+    position: new CANNON.Vec3(2, .6, 1)
   });
 
-  physicsChasis.addShape(hydrantBox, new CANNON.Vec3(0,0,0), new CANNON.Quaternion());
-
-
-  return model;
+  return {model, physicsChasis};
 }
 
 export {loadHydrant}
