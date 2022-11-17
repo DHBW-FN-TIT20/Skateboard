@@ -108,11 +108,10 @@ async function loadSkateboard() {
     });
 
     model.tick = (delta) => {
-        let { x, y, z } = physicsChasis.position;
-        y = y - 0.25;
-        z = z + .025;
-        x = x - .011;
-        model.position.copy({ x, y, z });
+        model.position.copy(physicsChasis.position);
+        model.translateZ(-.25);
+        model.translateX(-.011);
+        model.translateY(-.025);
         model.quaternion.copy(physicsChasis.quaternion);
         model.rotateX(degToRad(-90));
 
