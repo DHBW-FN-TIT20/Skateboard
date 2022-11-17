@@ -1,12 +1,35 @@
-button{
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#animationButtons {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+#animationButtons > * {
+    margin: 0 0.5rem;
+    display: block;
+}
+
+#animationButtons > button {
+    width: 100px;
     font-size: 1rem;    /* Schriftgröße der Buttons = Standardschriftgröße im Browser*/
     font-weight: bold;  /* Schriftart der Buttons = Standardschriftgröße fett*/
-    cursor:pointer;     /* Mauszeiger ändert sich wenn dieser über den Buttons steht */
+    cursor: pointer;     /* Mauszeiger ändert sich wenn dieser über den Buttons steht */
     padding: 0.5em 1em; /* Vertikale Horizontale ==> Größe und Abstand des Rahmens (jedes Buttens) richtet sich nach der Schriftgröße*/
 
-    display: block;     /* Anordnung der Buttons*/
-    margin:0.5em auto;  /* Zentrierung der Buttons (auto), Horizontal-Abstand 0,5em*/
-    
+    margin-bottom: 0.5rem !important;
 
     background-color:rgb(0, 0, 0);   /* Hintergrundfarbe der Buttons*/
     color:white;                     /* Schriftfarbe der Buttons*/
