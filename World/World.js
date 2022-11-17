@@ -21,6 +21,7 @@ import { loadStreetLamp } from "./components/environment/streetLamp";
 import { loadStreet } from "./components/environment/street";
 import { loadTree } from "./components/environment/tree";
 import { loadPylon } from "./components/environment/pylon";
+import { CameraHelper, PointLightHelper } from "three";
 
 let scene;
 let physics;
@@ -89,12 +90,13 @@ class World {
         const streetLamp3 = await loadStreetLamp(-19, .1, -15);
         const pylon1 = await loadPylon(-2, .1, 0);
         const street = await loadStreet();
-        const tree =await loadTree();
+        const tree = await loadTree();
     
         skateboard.physics.addToWorld(physics);
         
         loop.updatables.push(skateboard.model, pylon1.model);
         scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree, pylon1.model);
+        scene.add(streetLamp1.positionLightLamp, streetLamp2.positionLightLamp, streetLamp3.positionLightLamp);
         [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics].forEach((p) => physics.addBody(p));
     }
 
