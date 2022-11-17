@@ -8,7 +8,7 @@ async function loadStreetLamp(){
 
   model.scale.set(.15,.15,.15);
   model.rotateY(degToRad(180));
-  model.position.set(-9,.1,1);
+  model.position.set(-19,.1,0);
   
   model.castShadow = true;
   data.scene.traverse((node) => {

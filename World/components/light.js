@@ -18,18 +18,18 @@ function createLights(){
   
   //set up for the directional light
   //Position and allow that it casts shadows
-  directionalLight.position.set( 0, 10, 10 );
+  directionalLight.position.set( 0, 15, 17 );
   directionalLight.castShadow = true; 
   directionalLight.target.position.set(0, 0, 0);
 
 
   //resolution of the shadow
-  directionalLight.shadow.mapSize.width = 1500; 
-  directionalLight.shadow.mapSize.height = 1500; 
+  directionalLight.shadow.mapSize.width = 2000; 
+  directionalLight.shadow.mapSize.height = 2000; 
 
   //distanze of the shadow
   directionalLight.shadow.camera.near = 5;
-  directionalLight.shadow.camera.far = 25;
+  directionalLight.shadow.camera.far = 40;
 
   //area of the directional light shadow
   var area = 20;
