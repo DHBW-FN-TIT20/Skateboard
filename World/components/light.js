@@ -1,14 +1,13 @@
-import { Vector3 } from "three";
 import { HemisphereLight, DirectionalLight, AmbientLight } from "three";
 
 function createLights(){
   //create a directional light to represent the sun 
   //white light with an intensity of 0.9 of 1
-  const directionalLight = new DirectionalLight(0xffffff, 0.4);
+  const directionalLight = new DirectionalLight(0xffffff, 0.2);
 
   //creates an ambient light, that the shadow areas are not completely black
   //white light with an intensity of 0.4
-  const ambientLight = new AmbientLight(0xffffff, 0.7);
+  const ambientLight = new AmbientLight(0xffffff, 0.2);
 
   //create hemisphere light
   //fades between the skyColor and the groundColor to create a realistic scene

@@ -21,7 +21,6 @@ import { loadStreetLamp } from "./components/environment/streetLamp";
 import { loadStreet } from "./components/environment/street";
 import { loadTree } from "./components/environment/tree";
 import { loadPylon } from "./components/environment/pylon";
-import { CameraHelper, PointLightHelper } from "three";
 
 let scene;
 let physics;
@@ -54,7 +53,7 @@ class World {
         dlGlobalHelper.tick = () => dlGlobalHelper.update();
         loop.updatables.push(dlGlobalHelper);
 
-        scene.add(axisHelper, gridHelper, dlGlobalHelper, cameraHelper);
+        scene.add(axisHelper, gridHelper);
         const gui = new GUI();
         makeXYZGUI(gui, directionalLight.position, 'position', updateLight);
 
@@ -68,7 +67,7 @@ class World {
             folder.open();
         }
 
-        // physiks world
+        // physics world
         physics = new CANNON.World({
             gravity: new CANNON.Vec3(0, -10, 0)
         });

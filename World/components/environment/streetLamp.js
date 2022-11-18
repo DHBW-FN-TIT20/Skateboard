@@ -27,7 +27,7 @@ async function loadStreetLamp(xPos, yPos, zPos){
   });
 
   //add directional light
-  const positionLightLamp = new PointLight(0xffffff, 0.9);
+  const positionLightLamp = new PointLight(0xf39f18, 0.9);
   positionLightLamp.position.set( -17.5, 5.9, zPos);
   positionLightLamp.castShadow = true;
   positionLightLamp.shadow.camera.near = 3;
