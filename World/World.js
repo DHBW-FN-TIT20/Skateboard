@@ -95,7 +95,7 @@ class World {
         
         loop.updatables.push(skateboard.model, pylon1.model);
         scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree, pylon1.model);
-        scene.add(streetLamp1.positionLightLamp, streetLamp2.positionLightLamp, streetLamp3.positionLightLamp);
+        scene.add(streetLamp1.spotLightLamp, streetLamp1.spotLightLamp.target, streetLamp2.spotLightLamp, streetLamp2.spotLightLamp.target ,streetLamp3.spotLightLamp, streetLamp3.spotLightLamp.target);
         [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics].forEach((p) => physics.addBody(p));
     }
 

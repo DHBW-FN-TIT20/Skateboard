@@ -1,6 +1,6 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { degToRad } from "three/src/math/MathUtils";
-import { PointLight } from "three";
+import { SpotLight } from "three";
 import * as CANNON from "cannon-es";
 
 
@@ -26,15 +26,18 @@ async function loadStreetLamp(xPos, yPos, zPos){
     position: new CANNON.Vec3(xPos, yPos + 0.5, zPos)
   });
 
-  //add directional light
-  const positionLightLamp = new PointLight(0xf39f18, 0.9);
-  positionLightLamp.position.set( -17.5, 5.9, zPos);
-  positionLightLamp.castShadow = true;
-  positionLightLamp.shadow.camera.near = 3;
-  positionLightLamp.shadow.camera.far = 7;
+  //add spotlight
+  const spotLightLamp = new SpotLight(0xf39f18, 1.5);
+  spotLightLamp.position.set( -17.5, 5.9, zPos);
+  spotLightLamp.target.position.set(-17, .1, zPos);
+  spotLightLamp.penumbra = 0.25;
+  spotLightLamp.angle = Math.PI/3;
+  spotLightLamp.castShadow = true;
+  spotLightLamp.shadow.camera.near = 3;
+  spotLightLamp.shadow.camera.far = 7;
   
 
-  return {model, physics, positionLightLamp};
+  return {model, physics, spotLightLamp};
 }
 
 export {loadStreetLamp}
