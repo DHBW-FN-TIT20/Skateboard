@@ -24,6 +24,7 @@ import { loadPylon } from "./components/environment/pylon";
 import { createCone } from "./components/environment/prism";
 import { loadCar } from "./components/environment/car";
 import { loadBush } from "./components/environment/bush";
+import { loadBank } from "./components/environment/bank";
 
 let scene;
 let physics;
@@ -99,13 +100,14 @@ class World {
         const car = await loadCar();
         const bush1 = await loadBush(14, .6 , -10);
         const bush2 = await loadBush(9, .9, -15);
+        const bank = await loadBank(12, 0, 17);
     
         skateboard.physics.addToWorld(physics);
         
         loop.updatables.push(skateboard.model, pylon1.model, pylon2.model, pylon3.model);
-        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree, pylon1.model, prism.model, pylon2.model, pylon3.model, bush1, bush2);
+        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree, pylon1.model, prism.model, pylon2.model, pylon3.model, bush1, bush2, bank.model);
         scene.add(streetLamp1.spotLightLamp, streetLamp1.spotLightLamp.target, streetLamp2.spotLightLamp, streetLamp2.spotLightLamp.target ,streetLamp3.spotLightLamp, streetLamp3.spotLightLamp.target, car.model);
-        [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics, prism.physics, pylon2.physics, pylon3.physics, car.physics].forEach((p) => physics.addBody(p));
+        [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics, prism.physics, pylon2.physics, pylon3.physics, car.physics, bank.physics].forEach((p) => physics.addBody(p));
     }
 
     render() {
