@@ -7,7 +7,7 @@ function createLights(){
 
   //creates an ambient light, that the shadow areas are not completely black
   //white light with an intensity of 0.4
-  const ambientLight = new AmbientLight(0xffffff, 0.2);
+  const ambientLight = new AmbientLight(0xffffff, 0.35);
 
   //create hemisphere light
   //fades between the skyColor and the groundColor to create a realistic scene

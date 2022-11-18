@@ -21,6 +21,8 @@ import { loadStreetLamp } from "./components/environment/streetLamp";
 import { loadStreet } from "./components/environment/street";
 import { loadTree } from "./components/environment/tree";
 import { loadPylon } from "./components/environment/pylon";
+import { createCone } from "./components/environment/prism";
+import { loadCar } from "./components/environment/car";
 
 let scene;
 let physics;
@@ -87,16 +89,20 @@ class World {
         const streetLamp1 = await loadStreetLamp(-19, .1, 0);
         const streetLamp2 = await loadStreetLamp(-19, .1, 15);
         const streetLamp3 = await loadStreetLamp(-19, .1, -15);
-        const pylon1 = await loadPylon(-2, .1, 0);
+        const pylon1 = await loadPylon(-2, .1, -10);
+        const pylon2 = await loadPylon(4, .1, -10);
+        const pylon3 = await loadPylon(-8, .1, -10);
         const street = await loadStreet();
         const tree = await loadTree();
+        const prism = await createCone(4,4);
+        const car = await loadCar();
     
         skateboard.physics.addToWorld(physics);
         
-        loop.updatables.push(skateboard.model, pylon1.model);
-        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree, pylon1.model);
-        scene.add(streetLamp1.spotLightLamp, streetLamp1.spotLightLamp.target, streetLamp2.spotLightLamp, streetLamp2.spotLightLamp.target ,streetLamp3.spotLightLamp, streetLamp3.spotLightLamp.target);
-        [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics].forEach((p) => physics.addBody(p));
+        loop.updatables.push(skateboard.model, pylon1.model, pylon2.model, pylon3.model);
+        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree, pylon1.model, prism.model, pylon2.model, pylon3.model);
+        scene.add(streetLamp1.spotLightLamp, streetLamp1.spotLightLamp.target, streetLamp2.spotLightLamp, streetLamp2.spotLightLamp.target ,streetLamp3.spotLightLamp, streetLamp3.spotLightLamp.target, car.model);
+        [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics, prism.physics, pylon2.physics, pylon3.physics, car.physics].forEach((p) => physics.addBody(p));
     }
 
     render() {

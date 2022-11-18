@@ -6,7 +6,7 @@ async function loadTree(){
   const model = data.scene.children[0];
 
   model.scale.set(.25,.25,.25);
-  model.position.set(10,.1,0);
+  model.position.set(13,.1,-13);
   
   model.castShadow = true;
   data.scene.traverse((node) => {
