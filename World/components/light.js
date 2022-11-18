@@ -3,7 +3,9 @@ import { HemisphereLight, DirectionalLight, AmbientLight } from "three";
 function createLights(){
   //create a directional light to represent the sun 
   //white light with an intensity of 0.9 of 1
-  const directionalLight = new DirectionalLight(0xffffff, 0.2);
+  // const directionalLight = new DirectionalLight(0xffffff, 0.2);
+  const directionalLight = new DirectionalLight(0xffffff, 0.9);
+
 
   //creates an ambient light, that the shadow areas are not completely black
   //white light with an intensity of 0.4

@@ -4,7 +4,7 @@ import * as CANNON from "cannon-es";
 
 function createCone(xPos, zPos){
   const geometry = new ConeGeometry( 3, 1, 4, 1 );
-  const material = new MeshStandardMaterial( {color: 0xffff00} );
+  const material = new MeshStandardMaterial( {color: 0x767272} );
   const cone = new Mesh( geometry, material );
 
   cone.position.set(xPos, 0.6, zPos);
