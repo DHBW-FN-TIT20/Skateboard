@@ -28,6 +28,7 @@ import { loadBank } from "./components/environment/bank";
 import { loadTrashcan } from "./components/environment/trashcan";
 import { loadChairTable } from "./components/environment/chair-table";
 import { loadLetterBox } from "./components/environment/letter-box";
+import { loadTrashBag } from "./components/environment/trash-bag";
 
 let scene;
 let physics;
@@ -108,16 +109,17 @@ class World {
         const bush2 = await loadBush(9, .9, -15);
         const bank = await loadBank(12, 0, 17);
         const trashcan1 = await loadTrashcan(8, 2, 17);
+        const trashBag = await loadTrashBag(6.5, 2, 16);
         const chariTable = await loadChairTable();
         const letterBox1 = await loadLetterBox(-19.7, .1, 7.5);
         const letterBox2 = await loadLetterBox(-19.7, .1, -7.5);
     
         skateboard.physics.addToWorld(physics);
         
-        loop.updatables.push(skateboard.model, pylon1.model, pylon2.model, pylon3.model, pylon4.model, pylon5.model ,pylon6.model, trashcan1.model);
-        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree.model, pylon1.model, prism.model, pylon2.model, pylon3.model, bush1, bush2, bank.model, trashcan1.model, chariTable.model, pylon5.model, pylon4.model, pylon6.model, letterBox1.model, letterBox2.model);
+        loop.updatables.push(skateboard.model, pylon1.model, pylon2.model, pylon3.model, pylon4.model, pylon5.model ,pylon6.model, trashcan1.model, trashBag.model);
+        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree.model, pylon1.model, prism.model, pylon2.model, pylon3.model, bush1, bush2, bank.model, trashcan1.model, chariTable.model, pylon5.model, pylon4.model, pylon6.model, letterBox1.model, letterBox2.model, trashBag.model);
         scene.add(streetLamp1.spotLightLamp, streetLamp1.spotLightLamp.target, streetLamp2.spotLightLamp, streetLamp2.spotLightLamp.target ,streetLamp3.spotLightLamp, streetLamp3.spotLightLamp.target, car.model);
-        [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics, prism.physics, pylon2.physics, pylon3.physics, car.physics, bank.physics, tree.physics, trashcan1.physics, chariTable.physics, pylon4.physics, pylon5.physics, pylon6.physics, letterBox1.physics, letterBox2.physics].forEach((p) => physics.addBody(p));
+        [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics, prism.physics, pylon2.physics, pylon3.physics, car.physics, bank.physics, tree.physics, trashcan1.physics, chariTable.physics, pylon4.physics, pylon5.physics, pylon6.physics, letterBox1.physics, letterBox2.physics, trashBag.physics].forEach((p) => physics.addBody(p));
     }
 
     render() {
