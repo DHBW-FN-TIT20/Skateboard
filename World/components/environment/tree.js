@@ -1,4 +1,5 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import * as CANNON from "cannon-es";
 
 async function loadTree(){
   const gltfLoader = new GLTFLoader();
@@ -13,7 +14,15 @@ async function loadTree(){
     if (node.isMesh) node.castShadow = true;
   });
 
-  return model;
+  //add a hitbox
+  const treeCylinder = new CANNON.Cylinder(.35, .53, 1, 20);
+  const physics = new CANNON.Body({
+    type: CANNON.Body.STATIC,
+    shape: treeCylinder,
+    position: new CANNON.Vec3(13, .6, -13)
+  });
+
+  return {model, physics};
 }
 
 export {loadTree}
