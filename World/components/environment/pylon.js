@@ -19,7 +19,7 @@ async function loadPylon(xPos, yPos, zPos){
   const physics = new CANNON.Body({
     mass: 1,
     shape: pylonCylinder,
-    position: new CANNON.Vec3(xPos, yPos+ .5, zPos)
+    position: new CANNON.Vec3(xPos, yPos+ 1, zPos)
   });
 
   model.tick = (delta) => {

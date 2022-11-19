@@ -96,6 +96,10 @@ class World {
         const pylon1 = await loadPylon(-2, .1, -10);
         const pylon2 = await loadPylon(4, .1, -10);
         const pylon3 = await loadPylon(-8, .1, -10);
+        const pylon4 = await loadPylon(1, .1, -10);
+        const pylon5 = await loadPylon(-5, .1, -10);
+        const pylon6 = await loadPylon(7, .1, -10);
+        const pylon7 = await loadPylon(10, .1, -10);
         const street = await loadStreet();
         const tree = await loadTree();
         const prism = await createCone(4,4);
@@ -108,10 +112,10 @@ class World {
     
         skateboard.physics.addToWorld(physics);
         
-        loop.updatables.push(skateboard.model, pylon1.model, pylon2.model, pylon3.model, trashcan1.model);
-        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree.model, pylon1.model, prism.model, pylon2.model, pylon3.model, bush1, bush2, bank.model, trashcan1.model, chariTable.model);
+        loop.updatables.push(skateboard.model, pylon1.model, pylon2.model, pylon3.model, pylon4.model, pylon5.model ,pylon6.model, pylon7.model ,trashcan1.model);
+        scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree.model, pylon1.model, prism.model, pylon2.model, pylon3.model, bush1, bush2, bank.model, trashcan1.model, chariTable.model, pylon5.model, pylon4.model, pylon6.model, pylon7.model);
         scene.add(streetLamp1.spotLightLamp, streetLamp1.spotLightLamp.target, streetLamp2.spotLightLamp, streetLamp2.spotLightLamp.target ,streetLamp3.spotLightLamp, streetLamp3.spotLightLamp.target, car.model);
-        [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics, prism.physics, pylon2.physics, pylon3.physics, car.physics, bank.physics, tree.physics, trashcan1.physics, chariTable.physics].forEach((p) => physics.addBody(p));
+        [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics, prism.physics, pylon2.physics, pylon3.physics, car.physics, bank.physics, tree.physics, trashcan1.physics, chariTable.physics, pylon4.physics, pylon5.physics, pylon6.physics, pylon7.physics].forEach((p) => physics.addBody(p));
     }
 
     render() {

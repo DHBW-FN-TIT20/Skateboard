@@ -7,7 +7,7 @@ function createCamera(){
     0.01, //near
     1000 //far
   );
-  camera.position.set(0,15,-10);
+  camera.position.set(0,10,-25);
   return camera;
 }
 
