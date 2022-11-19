@@ -53,7 +53,7 @@ class World {
         controls = createControls(camera, renderer.domElement);
         loop.updatables.push(controls);
 
-        const { directionalLight, ambientLight, hemisphereLight } = createLights();
+        const { directionalLight, ambientLight } = createLights();
 
         const { dlHelper, axisHelper, gridHelper, cameraHelper } = createHelpers(directionalLight);
         dlGlobalHelper = dlHelper;
@@ -64,7 +64,7 @@ class World {
         const gui = new GUI();
         makeXYZGUI(gui, directionalLight.position, 'position', updateLight);
 
-        scene.add(ambientLight, directionalLight, hemisphereLight);
+        scene.add(ambientLight, directionalLight);
 
         function makeXYZGUI(gui, vector3, name, onChangeFn) {
             const folder = gui.addFolder(name);

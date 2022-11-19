@@ -1,4 +1,4 @@
-import { HemisphereLight, DirectionalLight, AmbientLight } from "three";
+import { DirectionalLight, AmbientLight } from "three";
 
 function createLights(){
   //create a directional light to represent the sun 
@@ -9,12 +9,6 @@ function createLights(){
   //creates an ambient light, that the shadow areas are not completely black
   //white light with an intensity of 0.4
   const ambientLight = new AmbientLight(0xffffff, 0.35);
-
-  //create hemisphere light
-  //fades between the skyColor and the groundColor to create a realistic scene
-  const skyColor = 0xB1E1FF;  // light blue
-  const groundColor = 0x000000;  // brownish orange
-  const hemisphereLight = new HemisphereLight(skyColor, groundColor, 0);
   
   //set up for the directional light
   //Position and allow that it casts shadows
@@ -38,7 +32,7 @@ function createLights(){
   directionalLight.shadow.camera.right = -area;
   directionalLight.shadow.camera.bottom = -area;
 
-  return {directionalLight, ambientLight, hemisphereLight};
+  return {directionalLight, ambientLight};
 }
 
 export {createLights};
