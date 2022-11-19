@@ -27,7 +27,7 @@ async function loadStreetLamp(xPos, yPos, zPos){
   });
 
   //add spotlight
-  const spotLightLamp = new SpotLight(0xf39f18, 1.5);
+  const spotLightLamp = new SpotLight(0xf39f18, 0);
   spotLightLamp.position.set( -17.5, 5.9, zPos);
   spotLightLamp.target.position.set(-17, .1, zPos);
   spotLightLamp.penumbra = 0.25;
@@ -35,7 +35,13 @@ async function loadStreetLamp(xPos, yPos, zPos){
   spotLightLamp.castShadow = true;
   spotLightLamp.shadow.camera.near = 3;
   spotLightLamp.shadow.camera.far = 7;
-  
+
+  spotLightLamp.day = () => {
+    spotLightLamp.intensity = 0
+  }
+  spotLightLamp.night = () => {
+    spotLightLamp.intensity = 1.5
+  }
 
   return {model, physics, spotLightLamp};
 }

@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/x-icon" href="/skateboard.png">
-        <link rel="stylesheet" href="./style.css" />
-        <title>Skateboard</title>
-    </head>
-    <body>
-        <div id="animationButtons">
-            <button onclick="playAnimation(0)" id="kickflip">Kickflip</button>
-            <button onclick="playAnimation(1)" id="treflip">Treflip</button>
-            <button onclick="playAnimation(2)" id="varialHeel">Varial Heelflip</button>
-            <small><b>Drive: </b>W/A/S/D</small>
-            <small><b>Trick: </b>J/K/L</small>
-            <small><b>Reset: </b>&#60;Space&#62;</small>
-        </div>
-        <canvas class="canv"></canvas>
-        <script type="module" src="./index.js"></script>
-    </body>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/skateboard.png">
+    <link rel="stylesheet" href="./style.css" />
+    <title>Skateboard</title>
+</head>
+
+<body>
+    <div id="animationButtons">
+        <label class="switch">
+            <input type="checkbox" id="checkbox">
+            <span class="slider"></span>
+        </label>
+        <button onclick="playAnimation(0)" id="kickflip">Kickflip</button>
+        <button onclick="playAnimation(1)" id="treflip">Treflip</button>
+        <button onclick="playAnimation(2)" id="varialHeel">Varial Heelflip</button>
+        <small>Drive: W/A/S/D</small>
+        <small>Trick: J/K/L</small>
+        <small>Reset: &#60;Space&#62;</small>
+    </div>
+    <canvas class="canv"></canvas>
+    <script type="module" src="./index.js"></script>
+    <script>
+        document.getElementById('checkbox').addEventListener('change', (event) => {
+            document.getElementById('animationButtons').classList.toggle('light')
+            toggleDayNight();
+        })
+    </script>
+</body>
+
 </html>
