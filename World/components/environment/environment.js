@@ -12,9 +12,11 @@ async function loadEnvironment() {
     model.receiveShadow = true;
 
     const groundMaterial = new CANNON.Material("groundMaterial");
+    groundMaterial.friction = 1;
     const groundShape = new CANNON.Box(new CANNON.Vec3(20, 20, 0.1))
-    const physics = new CANNON.Body( { type: CANNON.Body.STATIC, shape: groundShape, material: groundMaterial });
-    physics.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0), -Math.PI/2);
+    const physics = new CANNON.Body({ type: CANNON.Body.STATIC, material: groundMaterial });
+    physics.addShape(groundShape);
+    physics.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
 
     return { model, physics };
 };
