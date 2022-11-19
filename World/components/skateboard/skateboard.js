@@ -47,99 +47,100 @@ async function loadSkateboard() {
         mixer.stopAllAction();
     }
 
-    const shapeBoardLower = new CANNON.Box(new CANNON.Vec3(.6, .01, .19));
-    const shapeBoardUpper = new CANNON.Box(new CANNON.Vec3(.75, .01, .19));
-    const shapeAxis = new CANNON.Box(new CANNON.Vec3(.04, .04, .1))
-    const physicsChasis = new CANNON.Body({
-        mass: 20,
-        position: new CANNON.Vec3(0, .5, 0)
-    });
-    physicsChasis.addShape(shapeBoardLower, new CANNON.Vec3(0, 0, 0), new CANNON.Quaternion());
-    physicsChasis.addShape(shapeBoardUpper, new CANNON.Vec3(0, .08, 0), new CANNON.Quaternion());
-    physicsChasis.addShape(shapeAxis, new CANNON.Vec3(.4, -.08, 0), new CANNON.Quaternion());
-    physicsChasis.addShape(shapeAxis, new CANNON.Vec3(-.4, -.08, 0), new CANNON.Quaternion());
-    physicsChasis.position = new CANNON.Vec3(0, .5, 0);
+    const chassisShape = new CANNON.Box(new CANNON.Vec3(.5, .01, .2))
+    const shapeBoardUpper = new CANNON.Box(new CANNON.Vec3(.7, .01, .1));
+    const chassisBody = new CANNON.Body({ mass: 100 })
+    chassisBody.addShape(chassisShape)
+    chassisBody.addShape(shapeBoardUpper, new CANNON.Vec3(0,.07,0))
+    chassisBody.position.set(0, 2, 0)
+    chassisBody.angularVelocity.set(0, 0.5, 0)
 
-    const physics = new CANNON.RigidVehicle({
-        chassisBody: physicsChasis
-    });
+    // Create the vehicle
+    const physics = new CANNON.RaycastVehicle({
+        chassisBody,
+    })
 
-    const wheelMaterial = new CANNON.Material("wheel");
-    const wheelShape = new CANNON.Sphere(.07);
-    const down = new CANNON.Vec3(0, -1, 0);
-
-    const wheelBody1 = new CANNON.Body({ mass: 1, material: wheelMaterial });
-    wheelBody1.addShape(wheelShape);
-    wheelBody1.angularDamping = .4;
-    physics.addWheel({
-        body: wheelBody1,
-        position: new CANNON.Vec3(-.4, -.1, .16),
-        axis: new CANNON.Vec3(0, 0, 1),
-        direction: down
-    });
-
-    const wheelBody2 = new CANNON.Body({ mass: 1, material: wheelMaterial });
-    wheelBody2.addShape(wheelShape);
-    wheelBody2.angularDamping = .4;
-    physics.addWheel({
-        body: wheelBody2,
-        position: new CANNON.Vec3(-.4, -.1, -.16),
-        axis: new CANNON.Vec3(0, 0, 1),
-        direction: down
-    });
-    const wheelBody3 = new CANNON.Body({ mass: 1, material: wheelMaterial });
-    wheelBody3.addShape(wheelShape);
-    wheelBody3.angularDamping = .4;
-    physics.addWheel({
-        body: wheelBody3,
-        position: new CANNON.Vec3(.4, -.1, .16),
-        axis: new CANNON.Vec3(0, 0, 1),
-        direction: down
-    });
-
-    const wheelBody4 = new CANNON.Body({ mass: 1, material: wheelMaterial });
-    wheelBody4.addShape(wheelShape);
-    wheelBody4.angularDamping = .4;
-    physics.addWheel({
-        body: wheelBody4,
-        position: new CANNON.Vec3(.4, -.1, -.16),
-        axis: new CANNON.Vec3(0, 0, 1),
-        direction: down
-    });
-
-    model.tick = (delta) => {
-        model.position.copy(physicsChasis.position);
-        model.translateZ(-.25);
-        model.translateX(-.011);
-        model.translateY(-.025);
-        model.quaternion.copy(physicsChasis.quaternion);
-        model.rotateX(degToRad(-90));
-
-        mixer.update(delta);
+    const wheelOptions = {
+        radius: 0.1,
+        directionLocal: new CANNON.Vec3(0, -1, 0),
+        suspensionStiffness: 100,
+        suspensionRestLength: 0.1,
+        frictionSlip: 2,
+        dampingRelaxation: 2.3,
+        dampingCompression: 10,
+        maxSuspensionForce: 100000,
+        rollInfluence: 0.01,
+        axleLocal: new CANNON.Vec3(0, 0, 1),
+        chassisConnectionPointLocal: new CANNON.Vec3(-1, 0, 1),
+        maxSuspensionTravel: 0.1,
+        customSlidingRotationalSpeed: -30,
+        useCustomSlidingRotationalSpeed: true,
     }
 
-    document.addEventListener("keydown", (event) => {
-        const maxSteering = Math.PI / 15;
+    wheelOptions.chassisConnectionPointLocal.set(-.4, -.0, .16)
+    physics.addWheel(wheelOptions)
+
+    wheelOptions.chassisConnectionPointLocal.set(-.4, -.0, -.16)
+    physics.addWheel(wheelOptions)
+
+    wheelOptions.chassisConnectionPointLocal.set(.4, -.0, .16)
+    physics.addWheel(wheelOptions)
+
+    wheelOptions.chassisConnectionPointLocal.set(.4, -.01, -.16)
+    physics.addWheel(wheelOptions)
+
+    physics.wheelBodies = []
+    const wheelMaterial = new CANNON.Material('wheel')
+    physics.wheelInfos.forEach((wheel) => {
+        const cylinderShape = new CANNON.Cylinder(wheel.radius, wheel.radius, wheel.radius / 2, 20)
+        const wheelBody = new CANNON.Body({
+            mass: 0,
+            material: wheelMaterial,
+        })
+        wheelBody.type = CANNON.Body.KINEMATIC
+        wheelBody.collisionFilterGroup = 0 // turn off collisions
+        const quaternion = new CANNON.Quaternion().setFromEuler(-Math.PI / 2, 0, 0)
+        wheelBody.addShape(cylinderShape, new CANNON.Vec3(), quaternion)
+        physics.wheelBodies.push(wheelBody)
+    })
+
+
+    document.addEventListener('keydown', (event) => {
+        const maxSteerVal = 0.15
+        const maxForce = 200
+
         switch (event.key) {
-            case "w":
-            case "ArrowUp":
-                physics.setWheelForce(3, 0);
-                physics.setWheelForce(3, 1);
-                // physics.setMotorSpeed(10);
-                break;
-            case "s":
-            case "ArrowDown":
-                physics.setWheelForce(-2, 0);
-                physics.setWheelForce(-2, 1);
-                break;
-            case "a":
-                physics.setSteeringValue(maxSteering, 0);
-                physics.setSteeringValue(maxSteering, 1);
-                break;
-            case "d":
-                physics.setSteeringValue(-maxSteering, 0);
-                physics.setSteeringValue(-maxSteering, 1);
-                break;
+            case 'w':
+            case 'ArrowUp':
+                physics.applyEngineForce(-maxForce, 0)
+                physics.applyEngineForce(-maxForce, 1)
+                physics.applyEngineForce(-maxForce, 2)
+                physics.applyEngineForce(-maxForce, 3)
+                break
+
+            case 's':
+            case 'ArrowDown':
+                physics.applyEngineForce(maxForce, 0)
+                physics.applyEngineForce(maxForce, 1)
+                physics.applyEngineForce(maxForce, 2)
+                physics.applyEngineForce(maxForce, 3)
+                break
+
+            case 'a':
+            case 'ArrowLeft':
+                physics.setSteeringValue(maxSteerVal, 0)
+                physics.setSteeringValue(maxSteerVal, 1)
+                physics.setSteeringValue(-maxSteerVal, 2)
+                physics.setSteeringValue(-maxSteerVal, 3)
+                break
+
+            case 'd':
+            case 'ArrowRight':
+                physics.setSteeringValue(-maxSteerVal, 0)
+                physics.setSteeringValue(-maxSteerVal, 1)
+                physics.setSteeringValue(maxSteerVal, 2)
+                physics.setSteeringValue(maxSteerVal, 3)
+                break
             case "j":
                 playAnimation(1);
                 break;
@@ -149,45 +150,71 @@ async function loadSkateboard() {
             case "l":
                 playAnimation(2);
                 break;
-            default:
-                break;
         }
     });
 
-    document.addEventListener("keyup", (event) => {
+    // Reset force on keyup
+    document.addEventListener('keyup', (event) => {
         switch (event.key) {
-            case "w":
-            case "ArrowUp":
-                physics.setWheelForce(0, 0);
-                physics.setWheelForce(0, 1);
-                break;
-            case "s":
-            case "ArrowDown":
-                physics.setWheelForce(0, 0);
-                physics.setWheelForce(0, 1);
-                break;
-            case "a":
-                physics.setSteeringValue(0, 0);
-                physics.setSteeringValue(0, 1);
-                break;
-            case "d":
-                physics.setSteeringValue(0, 0);
-                physics.setSteeringValue(0, 1);
-                break;
+            case 'w':
+            case 'ArrowUp':
+                physics.applyEngineForce(0, 0)
+                physics.applyEngineForce(0, 1)
+                physics.applyEngineForce(0, 2)
+                physics.applyEngineForce(0, 3)
+                break
+
+            case 's':
+            case 'ArrowDown':
+                physics.applyEngineForce(0, 0)
+                physics.applyEngineForce(0, 1)
+                physics.applyEngineForce(0, 2)
+                physics.applyEngineForce(0, 3)
+                break
+
+            case 'a':
+            case 'ArrowLeft':
+                physics.setSteeringValue(0, 0)
+                physics.setSteeringValue(0, 1)
+                physics.setSteeringValue(0, 2)
+                physics.setSteeringValue(0, 3)
+                break
+
+            case 'd':
+            case 'ArrowRight':
+                physics.setSteeringValue(0, 0)
+                physics.setSteeringValue(0, 1)
+                physics.setSteeringValue(0, 2)
+                physics.setSteeringValue(0, 3)
+                break
             case " ":
                 if (event.code == "Space") {
-                    physics.chassisBody.torque.setZero();
                     physics.chassisBody.velocity.setZero();
-                    physics.chassisBody.position.set(0, .3, 0);
+                    physics.chassisBody.position.set(0, 1, 0);
                     physics.chassisBody.quaternion.set(0, 0, 0, 1);
                 }
-                physics.setWheelForce(0, 0);
-                physics.setWheelForce(0, 1);
-                break;
-            default:
                 break;
         }
     })
+
+    model.tick = (delta) => {
+        for (let i = 0; i < physics.wheelInfos.length; i++) {
+            physics.updateWheelTransform(i)
+            const transform = physics.wheelInfos[i].worldTransform
+            const wheelBody = physics.wheelBodies[i]
+            wheelBody.position.copy(transform.position)
+            wheelBody.quaternion.copy(transform.quaternion)
+        }
+
+        model.position.copy(physics.chassisBody.position);
+        model.translateZ(-.26);
+        model.translateX(-.011);
+        model.translateY(-.025);
+        model.quaternion.copy(physics.chassisBody.quaternion);
+        model.rotateX(degToRad(-90));
+
+        mixer.update(delta);
+    }
 
     return { model, physics };
 }
