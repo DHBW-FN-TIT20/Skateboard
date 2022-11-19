@@ -1,12 +1,16 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as CANNON from "cannon-es";
 
-async function loadTrashcan(xPos, yPos, zPos){
+async function loadChairTable(){
+  var xPos = 9;
+  var yPos = 0;
+  var zPos = -3;
+
   const gltfLoader = new GLTFLoader();
-  const data = await gltfLoader.loadAsync("/models/environment/trashcan.glb");
+  const data = await gltfLoader.loadAsync("/models/environment/chair-table.glb");
   const model = data.scene.children[0];
 
-  model.scale.set(.08,.08,.08);
+  model.scale.set(.45,.45,.45);
   model.position.set(xPos, yPos, zPos);
   
   model.castShadow = true;
@@ -15,10 +19,10 @@ async function loadTrashcan(xPos, yPos, zPos){
   });
 
   //add a hitbox
-  const pylonCylinder = new CANNON.Cylinder(0.7, 0.5, 2.2, 14);
+  const chairTableCylinder = new CANNON.Cylinder(2.2, 1, 4, 50);
   const physics = new CANNON.Body({
-    mass: 20,
-    shape: pylonCylinder,
+    type: CANNON.Body.STATIC,
+    shape: chairTableCylinder,
     position: new CANNON.Vec3(xPos, yPos + 1, zPos)
   });
 
@@ -31,4 +35,4 @@ async function loadTrashcan(xPos, yPos, zPos){
   return {model, physics};
 }
 
-export {loadTrashcan}
+export {loadChairTable}
