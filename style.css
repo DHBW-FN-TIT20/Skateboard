@@ -42,3 +42,9 @@ canvas {
     color:rgb(0, 0, 0);               /* Schriftfarbe der Buttons*/
     background-color:white;           /* Hintergrundfarbe der Buttons*/
 }
+
+small {
+    color: white;
+    font-size: 1rem;
+    
+}
