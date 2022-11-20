@@ -19,12 +19,22 @@ async function loadChairTable(){
   });
 
   //add a hitbox
-  const chairTableCylinder = new CANNON.Cylinder(2.2, 1, 4, 50);
+  const chairTableCylinder = new CANNON.Cylinder(.05, .3, 3.3, 50);
+  const charTableCylinder1 = new CANNON.Cylinder(.8, 1.9, .8, 50);
+  const charTableCylinder2 = new CANNON.Cylinder(.08, .36, .7, 20);
+  const charTableCylinder3 = new CANNON.Cylinder(.08, .36, .7, 20);
+  const charTableCylinder4 = new CANNON.Cylinder(1.2, 1.2, .08, 50);
+
   const physics = new CANNON.Body({
     type: CANNON.Body.STATIC,
     shape: chairTableCylinder,
-    position: new CANNON.Vec3(xPos, yPos + 1, zPos)
+    position: new CANNON.Vec3(xPos, yPos + 1.65, zPos)
   });
+
+  physics.addShape(charTableCylinder1, new CANNON.Vec3(0, 1.2, 0));
+  physics.addShape(charTableCylinder2, new CANNON.Vec3(0.98, -1.25, .27));
+  physics.addShape(charTableCylinder3, new CANNON.Vec3(-1, -1.25, .23));
+  physics.addShape(charTableCylinder4, new CANNON.Vec3(0, -.65, 0));
 
   model.tick = (delta) => {
     model.position.copy(physics.position);
