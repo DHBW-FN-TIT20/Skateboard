@@ -58,18 +58,7 @@ class World {
 
         const { directionalLight, ambientLight } = createLights();
 
-        const gui = new GUI();
-        makeXYZGUI(gui, directionalLight.position, 'position', updateLight);
-
         scene.add(ambientLight, directionalLight);
-
-        function makeXYZGUI(gui, vector3, name, onChangeFn) {
-            const folder = gui.addFolder(name);
-            folder.add(vector3, 'x', -10, 10).onChange(onChangeFn);
-            folder.add(vector3, 'y', 0, 10).onChange(onChangeFn);
-            folder.add(vector3, 'z', -10, 10).onChange(onChangeFn);
-            folder.open();
-        }
 
         // physics world
         physics = new CANNON.World({
