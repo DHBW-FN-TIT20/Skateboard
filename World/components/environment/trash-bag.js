@@ -15,16 +15,16 @@ async function loadTrashBag(xPos, yPos, zPos){
   });
 
   //add a hitbox
-  const trashCylinder = new CANNON.Cylinder(0.2, 0.3, .4, 14);
+  const trashCylinder = new CANNON.Cylinder(0.2, 0.3, .3, 14);
   const physics = new CANNON.Body({
-    mass: 15,
+    mass: 30,
     shape: trashCylinder,
     position: new CANNON.Vec3(xPos, yPos + .5, zPos)
   });
 
   model.tick = (delta) => {
     model.position.copy(physics.position);
-    model.translateY(-.2145);
+    model.translateY(-.149);
     model.quaternion.copy(physics.quaternion);
   }
 

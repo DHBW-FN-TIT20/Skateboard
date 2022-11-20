@@ -15,16 +15,18 @@ async function loadTrashcan(xPos, yPos, zPos){
   });
 
   //add a hitbox
-  const pylonCylinder = new CANNON.Cylinder(0.7, 0.5, 2.2, 14);
+  const pylonCylinder = new CANNON.Cylinder(0.63, 0.446, 1.6, 14);
   const physics = new CANNON.Body({
-    mass: 20,
+    mass: 50,
     shape: pylonCylinder,
     position: new CANNON.Vec3(xPos, yPos + 1, zPos)
   });
 
   model.tick = (delta) => {
     model.position.copy(physics.position);
-    model.translateY(-.2145);
+    model.translateY(.205);
+    // model.translateZ(-.001);
+    model.translateX(.05);
     model.quaternion.copy(physics.quaternion);
   }
 

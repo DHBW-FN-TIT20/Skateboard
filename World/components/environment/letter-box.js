@@ -17,7 +17,7 @@ async function loadLetterBox(xPos, yPos, zPos){
   });
 
   //add a hitbox
-  const letterBoxCylinder = new CANNON.Cylinder(.18, .18, 1, 12);
+  const letterBoxCylinder = new CANNON.Box(new CANNON.Vec3(.1, .5, .1));
   const physics = new CANNON.Body({
     type: CANNON.Body.STATIC,
     shape: letterBoxCylinder,
