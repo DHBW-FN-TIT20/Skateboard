@@ -58,12 +58,6 @@ class World {
 
         const { directionalLight, ambientLight } = createLights();
 
-        const { dlHelper, axisHelper, gridHelper, cameraHelper } = createHelpers(directionalLight);
-        dlGlobalHelper = dlHelper;
-        dlGlobalHelper.tick = () => dlGlobalHelper.update();
-        loop.updatables.push(dlGlobalHelper);
-
-        scene.add(axisHelper, gridHelper);
         const gui = new GUI();
         makeXYZGUI(gui, directionalLight.position, 'position', updateLight);
 
@@ -83,10 +77,6 @@ class World {
         });
         physics.tick = () => physics.fixedStep();
         loop.updatables.push(physics);
-
-        const cannonDebugger = new CannonDebugger(scene, physics, {});
-        cannonDebugger.tick = () => cannonDebugger.update();
-        loop.updatables.push(cannonDebugger);
 
         dayNightSwitcher = new DayNightSwitch();
         dayNightSwitcher.switchables.push(scene, directionalLight);

@@ -6,7 +6,7 @@ function createScene(){
     scene.background = new Color("lightblue")
   }
   scene.night = () => {
-    scene.background = new Color("black")
+    scene.background = new Color(0x171928)
   }
 
   scene.day();
