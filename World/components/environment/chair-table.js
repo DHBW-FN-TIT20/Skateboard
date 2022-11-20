@@ -1,11 +1,7 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as CANNON from "cannon-es";
 
-async function loadChairTable(){
-  var xPos = 9;
-  var yPos = 0;
-  var zPos = -3;
-
+async function loadChairTable(xPos, yPos, zPos){
   const gltfLoader = new GLTFLoader();
   const data = await gltfLoader.loadAsync("/models/environment/chair-table.glb");
   const model = data.scene.children[0];
