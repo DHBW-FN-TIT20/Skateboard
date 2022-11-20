@@ -17,9 +17,9 @@ async function loadBank(xPos, yPos ,zPos){
   });
 
   //add a hitbox
-  const box1 = new CANNON.Vec3(.25,.3,.5);
-  const box2 = new CANNON.Vec3(.25,.3,.5);
-  const box3 = new CANNON.Vec3(2.3, .08, .5);
+  const box1 = new CANNON.Vec3(.25,.25,.5);
+  const box2 = new CANNON.Vec3(.25,.25,.5);
+  const box3 = new CANNON.Vec3(2.3, .03, .5);
   const bankBox1 = new CANNON.Box(box1);
   const bankBox2 = new CANNON.Box(box2);
   const bankBox3 = new CANNON.Box(box3);
@@ -30,7 +30,7 @@ async function loadBank(xPos, yPos ,zPos){
   });
 
   physics.addShape(bankBox2, new CANNON.Vec3(-3.8, 0,0));
-  physics.addShape(bankBox3, new CANNON.Vec3(- 1.9,.3,0));
+  physics.addShape(bankBox3, new CANNON.Vec3(- 1.9,.22,0));
 
   return {model, physics};
 }
