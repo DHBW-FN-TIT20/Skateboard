@@ -9,6 +9,7 @@ import { createLights } from "./components/light";
 import { createScene } from "./components/scene";
 import { createRenderer } from "../systems/renderer";
 import { Resizer } from "../systems/resizer";
+import { DayNightSwitch } from "./systems/DayNightSwitch";
 import { createControls } from "../systems/controls";
 import { createHelpers } from "../systems/helper";
 
@@ -38,6 +39,7 @@ let renderer;
 let controls;
 let loop;
 
+let dayNightSwitcher;
 let dlGlobalHelper;
 
 class World {
@@ -85,6 +87,10 @@ class World {
         const cannonDebugger = new CannonDebugger(scene, physics, {});
         cannonDebugger.tick = () => cannonDebugger.update();
         loop.updatables.push(cannonDebugger);
+
+        dayNightSwitcher = new DayNightSwitch();
+        dayNightSwitcher.switchables.push(scene, directionalLight);
+        
     }
     
 
@@ -116,6 +122,7 @@ class World {
     
         skateboard.physics.addToWorld(physics);
         
+	dayNightSwitcher.switchables.push(streetLamp1.spotLightLamp, streetLamp2.spotLightLamp, streetLamp3.spotLightLamp);
         loop.updatables.push(skateboard.model, pylon1.model, pylon2.model, pylon3.model, pylon4.model, pylon5.model ,pylon6.model, trashcan1.model, trashBag.model);
         scene.add(skateboard.model, environment.model, hydrant.model, streetLamp1.model, streetLamp2.model, streetLamp3.model, street, tree.model, pylon1.model, prism.model, pylon2.model, pylon3.model, bush1, bush2, bank.model, trashcan1.model, chariTable.model, pylon5.model, pylon4.model, pylon6.model, letterBox1.model, letterBox2.model, trashBag.model);
         scene.add(streetLamp1.spotLightLamp, streetLamp1.spotLightLamp.target, streetLamp2.spotLightLamp, streetLamp2.spotLightLamp.target ,streetLamp3.spotLightLamp, streetLamp3.spotLightLamp.target, car.model);

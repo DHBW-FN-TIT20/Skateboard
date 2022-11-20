@@ -32,7 +32,14 @@ function createLights(){
   directionalLight.shadow.camera.right = -area;
   directionalLight.shadow.camera.bottom = -area;
 
-  return {directionalLight, ambientLight};
+  directionalLight.day = () => {
+    directionalLight.intensity = .9
+  }
+  directionalLight.night = () => {
+    directionalLight.intensity = .1
+  }
+
+ return {directionalLight, ambientLight}; 
 }
 
 export {createLights};
