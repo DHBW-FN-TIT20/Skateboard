@@ -17,10 +17,10 @@ async function loadBank(xPos, yPos ,zPos){
   });
 
   //add a hitbox
-  const box1 = new CANNON.Vec3(.27,.3,.5);
+  const box1 = new CANNON.Vec3(.29,.3,.5);
   const box2 = new CANNON.Vec3(.29,.3,.5);
-  const box3 = new CANNON.Vec3(2.3, .03, .37);
-  const box4 = new CANNON.Vec3(2.3, .18, .1);
+  const box3 = new CANNON.Vec3(2.29, .03, .37);
+  const box4 = new CANNON.Vec3(2.29, .18, .1);
   const box5 = new CANNON.Vec3(.153, .2, .11);
   const bankBox1 = new CANNON.Box(box1);
   const bankBox2 = new CANNON.Box(box2);
@@ -31,14 +31,14 @@ async function loadBank(xPos, yPos ,zPos){
   const physics = new CANNON.Body({
     type: CANNON.Body.STATIC,
     shape: bankBox1,
-    position: new CANNON.Vec3(xPos + 1.96, yPos + 0.4, zPos)
+    position: new CANNON.Vec3(xPos + 1.84, yPos + 0.4, zPos)
   });
 
-  physics.addShape(bankBox2, new CANNON.Vec3(-3.8, 0,0));
-  physics.addShape(bankBox3, new CANNON.Vec3(-1.95,.23,-.12));
-  physics.addShape(bankBox4, new CANNON.Vec3(-1.95,.72,.41));
-  physics.addShape(bankBox5, new CANNON.Vec3(-3.797, .5, .4));
-  physics.addShape(bankBox6, new CANNON.Vec3(-.125, .5, .4));
+  physics.addShape(bankBox2, new CANNON.Vec3(-3.68, 0,0));
+  physics.addShape(bankBox3, new CANNON.Vec3(-1.84,.23,-.12));
+  physics.addShape(bankBox4, new CANNON.Vec3(-1.84,.72,.41));
+  physics.addShape(bankBox5, new CANNON.Vec3(-3.68, .5, .4));
+  physics.addShape(bankBox6, new CANNON.Vec3(0, .5, .4));
 
   return {model, physics};
 }
