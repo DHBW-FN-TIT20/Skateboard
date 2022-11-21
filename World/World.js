@@ -1,7 +1,5 @@
 import "../style.css";
 
-import { GUI } from 'dat.gui';
-
 import * as CANNON from "cannon-es";
 
 import { createCamera } from "./components/camera";
@@ -11,12 +9,10 @@ import { createRenderer } from "../systems/renderer";
 import { Resizer } from "../systems/resizer";
 import { DayNightSwitch } from "./systems/DayNightSwitch";
 import { createControls } from "../systems/controls";
-import { createHelpers } from "../systems/helper";
 
 import { loadSkateboard } from "./components/skateboard/skateboard";
 import { loadEnvironment } from "./components/environment/environment";
 import { Loop } from "./systems/Loop";
-import CannonDebugger from "cannon-es-debugger";
 import { loadHydrant } from "./components/environment/hydrant";
 import { loadStreetLamp } from "./components/environment/streetLamp";
 import { loadStreet } from "./components/environment/street";
@@ -113,6 +109,7 @@ class World {
         renderer.render(scene, camera);
     }
 
+    //** starts the game */
     start() {
         camera.updateProjectionMatrix();
         camera.translateZ(-1);
@@ -120,14 +117,10 @@ class World {
         loop.start();
     }
 
+    //** stops the loop */
     stop() {
         loop.stop();
     }
 }
-
-function updateLight() {
-    dlGlobalHelper.update();
-}
-
 
 export { World };

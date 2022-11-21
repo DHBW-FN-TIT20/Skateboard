@@ -1,8 +1,8 @@
 
 import { World } from './World/World.js';
 
+//** creates a new World */
 async function main() {
-  // create a new world
   const world = new World();
 
   await world.init();
@@ -13,3 +13,5 @@ async function main() {
 main().catch((err) => {
   console.error(err);
 });
+
+

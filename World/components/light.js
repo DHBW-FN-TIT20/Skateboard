@@ -1,14 +1,15 @@
 import { DirectionalLight, AmbientLight } from "three";
 
+//** create a DirectionalLight and an AmbientLight */
 function createLights(){
   //create a directional light to represent the sun 
   //white light with an intensity of 0.9 of 1
-  const directionalLight = new DirectionalLight(0xffe1c7, 0.7);
+  const directionalLight = new DirectionalLight(0xffe1c7, 0.9);
 
 
   //creates an ambient light, that the shadow areas are not completely black
   //white light with an intensity of 0.4
-  const ambientLight = new AmbientLight(0xffffff, 0.35);
+  const ambientLight = new AmbientLight(0xffffff, 0.4);
   
   //set up for the directional light
   //Position and allow that it casts shadows
