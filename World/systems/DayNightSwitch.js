@@ -2,6 +2,7 @@
 /** switches between day and nightmode */
 class DayNightSwitch {
     constructor() {
+        /** contains all changeable objects */
         this.switchables = [];
 
         /**

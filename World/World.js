@@ -37,7 +37,13 @@ let loop;
 
 let dayNightSwitcher;
 
+/**
+ * World representates one Environment with all Elements in it.
+ */
 class World {
+    /**
+     * initalizes the threejs scene & physics world
+     */
     constructor() {
         scene = createScene();
         camera = createCamera();
@@ -67,7 +73,10 @@ class World {
         
     }
     
-
+    /**
+     * Initialize all elements of the environment, skateboard.
+     * Adds those elements to the threejs scene & physics world
+     */
     async init() {
         const environment = await loadEnvironment();
         const skateboard = await loadSkateboard();
@@ -104,11 +113,14 @@ class World {
         [environment.physics, hydrant.physics, streetLamp1.physics, streetLamp2.physics, streetLamp3.physics, pylon1.physics, prism.physics, pylon2.physics, pylon3.physics, car.physics, bank.physics, tree.physics, trashcan1.physics, chairTable.physics, chairTable1.physics, pylon4.physics, pylon5.physics, pylon6.physics, letterBox1.physics, letterBox2.physics, trashBag.physics].forEach((p) => physics.addBody(p));
     }
 
+    /**
+     * Renders the camera in the Scene
+     */
     render() {
         renderer.render(scene, camera);
     }
 
-    /** starts the game */
+    /** Starts the Animation loop */
     start() {
         camera.updateProjectionMatrix();
         camera.translateZ(-1);
@@ -116,7 +128,7 @@ class World {
         loop.start();
     }
 
-    /** stops the loop */
+    /** stops the Animation loop */
     stop() {
         loop.stop();
     }

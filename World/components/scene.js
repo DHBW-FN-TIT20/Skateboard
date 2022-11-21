@@ -2,7 +2,7 @@ import { Scene, Color } from "three";
 
 
 /** 
- * create a scene
+ * create a threejs scene
  * 
  * @return {scene}
  */

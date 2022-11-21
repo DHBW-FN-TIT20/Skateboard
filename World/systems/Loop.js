@@ -17,6 +17,7 @@ class Loop {
     this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
     document.body.appendChild(this.stats.dom);
 
+    /** conatins alle updateable objects */
     this.updatables = [];
   }
 
@@ -37,7 +38,7 @@ class Loop {
     this.renderer.setAnimationLoop(null);
   }
 
-  /** updates the updatables */
+  /** updates the updatables -> calls all updateable objects to update/tick */
   tick() {
     // only call the getDelta function once per frame!
     const delta = clock.getDelta();

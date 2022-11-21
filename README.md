@@ -23,3 +23,9 @@ This won't work because esbuild is written with native code and needs to install
 rm node_modules -rf
 npm ci
 ```
+
+## Create Docs
+Run jsdoc with:
+```console
+npm run docs
+```

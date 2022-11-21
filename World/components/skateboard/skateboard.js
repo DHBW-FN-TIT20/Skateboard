@@ -116,7 +116,6 @@ async function loadSkateboard() {
 
         switch (event.key) {
             case 'w':
-            case 'ArrowUp':
                 physics.applyEngineForce(-maxForce, 0)
                 physics.applyEngineForce(-maxForce, 1)
                 physics.applyEngineForce(-maxForce, 2)
@@ -124,7 +123,6 @@ async function loadSkateboard() {
                 break
 
             case 's':
-            case 'ArrowDown':
                 physics.applyEngineForce(maxForce, 0)
                 physics.applyEngineForce(maxForce, 1)
                 physics.applyEngineForce(maxForce, 2)
@@ -132,7 +130,6 @@ async function loadSkateboard() {
                 break
 
             case 'a':
-            case 'ArrowLeft':
                 physics.setSteeringValue(maxSteerVal, 0)
                 physics.setSteeringValue(maxSteerVal, 1)
                 physics.setSteeringValue(-maxSteerVal, 2)
@@ -140,7 +137,6 @@ async function loadSkateboard() {
                 break
 
             case 'd':
-            case 'ArrowRight':
                 physics.setSteeringValue(-maxSteerVal, 0)
                 physics.setSteeringValue(-maxSteerVal, 1)
                 physics.setSteeringValue(maxSteerVal, 2)
@@ -162,7 +158,6 @@ async function loadSkateboard() {
     document.addEventListener('keyup', (event) => {
         switch (event.key) {
             case 'w':
-            case 'ArrowUp':
                 physics.applyEngineForce(0, 0)
                 physics.applyEngineForce(0, 1)
                 physics.applyEngineForce(0, 2)
@@ -170,7 +165,6 @@ async function loadSkateboard() {
                 break
 
             case 's':
-            case 'ArrowDown':
                 physics.applyEngineForce(0, 0)
                 physics.applyEngineForce(0, 1)
                 physics.applyEngineForce(0, 2)
@@ -178,7 +172,6 @@ async function loadSkateboard() {
                 break
 
             case 'a':
-            case 'ArrowLeft':
                 physics.setSteeringValue(0, 0)
                 physics.setSteeringValue(0, 1)
                 physics.setSteeringValue(0, 2)
@@ -186,7 +179,6 @@ async function loadSkateboard() {
                 break
 
             case 'd':
-            case 'ArrowRight':
                 physics.setSteeringValue(0, 0)
                 physics.setSteeringValue(0, 1)
                 physics.setSteeringValue(0, 2)
@@ -202,15 +194,8 @@ async function loadSkateboard() {
         }
     })
 
+    /** Updates model position to physics object */
     model.tick = (delta) => {
-        for (let i = 0; i < physics.wheelInfos.length; i++) {
-            physics.updateWheelTransform(i)
-            const transform = physics.wheelInfos[i].worldTransform
-            const wheelBody = physics.wheelBodies[i]
-            wheelBody.position.copy(transform.position)
-            wheelBody.quaternion.copy(transform.quaternion)
-        }
-
         model.position.copy(physics.chassisBody.position);
         model.translateZ(-.26);
         model.translateX(-.011);
