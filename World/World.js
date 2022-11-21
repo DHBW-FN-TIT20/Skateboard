@@ -36,7 +36,6 @@ let controls;
 let loop;
 
 let dayNightSwitcher;
-let dlGlobalHelper;
 
 class World {
     constructor() {
@@ -109,7 +108,7 @@ class World {
         renderer.render(scene, camera);
     }
 
-    //** starts the game */
+    /** starts the game */
     start() {
         camera.updateProjectionMatrix();
         camera.translateZ(-1);
@@ -117,7 +116,7 @@ class World {
         loop.start();
     }
 
-    //** stops the loop */
+    /** stops the loop */
     stop() {
         loop.stop();
     }

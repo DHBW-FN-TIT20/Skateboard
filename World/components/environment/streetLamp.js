@@ -3,7 +3,15 @@ import { degToRad } from "three/src/math/MathUtils";
 import { SpotLight } from "three";
 import * as CANNON from "cannon-es";
 
-
+/** 
+ * load a streetlamp and add a hitbox
+ * 
+ * @param {number} xPos - the X coordinate of the model 
+ * @param {number} yPos - the Y coordinate of the model 
+ * @param {number} zPos - the Z coordinate of the model 
+ * 
+ * @return {model, physics}
+ */
 async function loadStreetLamp(xPos, yPos, zPos){
   const gltfLoader = new GLTFLoader();
   const data = await gltfLoader.loadAsync("/models/environment/streetLamp.glb");

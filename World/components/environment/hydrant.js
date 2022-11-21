@@ -1,6 +1,11 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as CANNON from "cannon-es";
 
+/** 
+ * load a hydrant and add a hitbox
+ * 
+ * @return {model, physics}
+ */
 async function loadHydrant(){
   var xPos = -9;
   var yPos = .1;

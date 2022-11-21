@@ -1,5 +1,11 @@
 import { Scene, Color } from "three";
 
+
+/** 
+ * create a scene
+ * 
+ * @return {scene}
+ */
 function createScene(){
   const scene = new Scene();
   scene.day = () => {

@@ -1,6 +1,10 @@
 import { PerspectiveCamera } from "three";
 
-//** create a PerspectiveCamera */
+/** 
+ * create a PerspectiveCamera 
+ * 
+ * @return {PerspectiveCamera}
+ */
 function createCamera(){
   const camera = new PerspectiveCamera(
     75,  //field of view

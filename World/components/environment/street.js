@@ -1,5 +1,11 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
+
+/** 
+ * load a street
+ * 
+ * @return {model}
+ */
 async function loadStreet(){
   const gltfLoader = new GLTFLoader();
   const data = await gltfLoader.loadAsync("/models/environment/street.glb");

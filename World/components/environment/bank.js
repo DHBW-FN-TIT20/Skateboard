@@ -2,7 +2,15 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { degToRad } from "three/src/math/MathUtils";
 import * as CANNON from "cannon-es";
 
-//** load a bank with hitbox */
+/** 
+ * load a bank and add a hitbox
+ * 
+ * @param {number} xPos - the X coordinate of the model 
+ * @param {number} yPos - the Y coordinate of the model 
+ * @param {number} zPos - the Z coordinate of the model 
+ * 
+ * @return {model, physics}
+ */
 async function loadBank(xPos, yPos ,zPos){
   const gltfLoader = new GLTFLoader();
   const data = await gltfLoader.loadAsync("/models/environment/banklowpoly.glb");

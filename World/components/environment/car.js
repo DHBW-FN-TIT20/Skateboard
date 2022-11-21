@@ -2,6 +2,12 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { degToRad } from "three/src/math/MathUtils";
 import * as CANNON from "cannon-es";
 
+
+/** 
+ * load a car and add a hitbox
+ * 
+ * @return {model, physics}
+ */
 async function loadCar(){
   const gltfLoader = new GLTFLoader();
   const data = await gltfLoader.loadAsync("/models/environment/car.glb");

@@ -1,5 +1,12 @@
 import { DirectionalLightHelper, AxesHelper, GridHelper, CameraHelper } from "three";
 
+/**
+ * creates the helper for the light, axis, grid and the camera
+ * 
+ * @param {DirectionalLight} directionalLight 
+ * 
+ * @returns {DirectionalLightHelper, AxesHelper, GridHelper, CameraHelper}
+ */
 function createHelpers(directionalLight) {
   const dlHelper = new DirectionalLightHelper(directionalLight);
   const axisHelper = new AxesHelper(10);

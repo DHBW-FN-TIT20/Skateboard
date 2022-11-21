@@ -1,7 +1,15 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as CANNON from "cannon-es";
 
-//** load a table with chairs and add a hitbox */
+/** 
+ * load a table with chairs and add a hitbox
+ * 
+ * @param {number} xPos - the X coordinate of the model 
+ * @param {number} yPos - the Y coordinate of the model 
+ * @param {number} zPos - the Z coordinate of the model 
+ * 
+ * @return {model, physics}
+ */
 async function loadChairTable(xPos, yPos, zPos){
   const gltfLoader = new GLTFLoader();
   const data = await gltfLoader.loadAsync("/models/environment/chair-table.glb");

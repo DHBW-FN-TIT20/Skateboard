@@ -1,5 +1,10 @@
 import { WebGLRenderer, PCFSoftShadowMap } from 'three';
 
+/**
+ * creates a renderer with WebGL
+ * 
+ * @returns {WebGLRenderer}
+ */
 function createRenderer(){
   const renderer = new WebGLRenderer({
     canvas: document.querySelector(".canv"),

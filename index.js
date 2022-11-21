@@ -1,7 +1,7 @@
 
 import { World } from './World/World.js';
 
-//** creates a new World */
+/** creates a new World */
 async function main() {
   const world = new World();
 

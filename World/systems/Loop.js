@@ -4,6 +4,9 @@ import Stats from 'three/examples/jsm/libs/stats.module';
 
 const clock = new Clock();
 
+/**
+ * creates an animation loop for rendering every frame
+ */
 class Loop {
   constructor(camera, scene, renderer) {
     this.camera = camera;
@@ -17,6 +20,7 @@ class Loop {
     this.updatables = [];
   }
 
+  /** starts the animation loop*/
   start() {
     this.renderer.setAnimationLoop(() => {
       this.stats.begin();
@@ -33,6 +37,7 @@ class Loop {
     this.renderer.setAnimationLoop(null);
   }
 
+  /** updates the updatables */
   tick() {
     // only call the getDelta function once per frame!
     const delta = clock.getDelta();

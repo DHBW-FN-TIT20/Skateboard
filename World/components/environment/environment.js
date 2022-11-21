@@ -2,6 +2,11 @@ import * as THREE from "three";
 import * as CANNON from "cannon-es";
 import { degToRad } from "three/src/math/MathUtils";
 
+/** 
+ * load a plane and add a hitbox
+ * 
+ * @return {model, physics}
+ */
 async function loadEnvironment() {
     //add the floor 
     const geometry = new THREE.BoxGeometry(30, 40, .2);

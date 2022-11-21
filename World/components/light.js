@@ -1,6 +1,10 @@
 import { DirectionalLight, AmbientLight } from "three";
 
-//** create a DirectionalLight and an AmbientLight */
+/** 
+ * create a DirectionalLight and an AmbientLight 
+ * 
+ * @return {DirectionalLight, AmbientLight}
+ */
 function createLights(){
   //create a directional light to represent the sun 
   //white light with an intensity of 0.9 of 1

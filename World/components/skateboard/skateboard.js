@@ -3,6 +3,11 @@ import { degToRad } from "three/src/math/MathUtils";
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
 
+/** 
+ * load a Skateboard, add a hitbox and create the steering
+ * 
+ * @return {model, physics}
+ */
 async function loadSkateboard() {
     const loadingManager = new THREE.LoadingManager();
     const gltfLoader = new GLTFLoader(loadingManager);
