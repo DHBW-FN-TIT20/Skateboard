@@ -27,5 +27,5 @@ npm ci
 ## Create Docs
 Run jsdoc with:
 ```console
-npm run docs
+npm run doc
 ```
